@@ -38,10 +38,20 @@
     <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
-    
-    <ItemGroup>
+
+    <!-- Debug: 로컬 소스 프로젝트 직접 참조 -->
+    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+        <ProjectReference Include="..\..\codersz_engine\JsspParser\JsspParser.csproj" />
+        <ProjectReference Include="..\..\codersz_engine\JsspPlatform\JsspPlatform.csproj" />
+    </ItemGroup>
+
+    <!-- Release: NuGet 패키지로 참조 -->
+    <ItemGroup Condition="'$(Configuration)' == 'Release'">
         <PackageReference Include="Codersz.JsspParser" Version="1.0.0" />
         <PackageReference Include="Codersz.JsspPlatform" Version="1.0.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
         <PackageReference Include="CommandLineParser" Version="2.9.1"/>
         <PackageReference Include="ngit2" Version="2.1.0.20130924" />
         <PackageReference Include="Serilog" Version="4.3.1-dev-02373"/>
