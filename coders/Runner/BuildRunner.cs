@@ -88,7 +88,7 @@ public class BuildRunner
                 Directory.CreateDirectory(project.OutPath);
             }
 
-            Build(project);
+            Build(_appConfig.LlmOptions, project);
 
             Log.Information("{ProjectName} Build completed", project.Name);
         }
@@ -139,7 +139,7 @@ public class BuildRunner
         return false;
     }
 
-    private void Build(ProjectConfig projectConfig)
+    private void Build(LlmOption llmOption, ProjectConfig projectConfig)
     {
         var inputFile = projectConfig.Entry;
 
@@ -173,7 +173,7 @@ public class BuildRunner
             var promptBuilder = PromptBuilder.GetPromptBuilder(projectConfig);
 
             var projectBuilder =
-                ProjectBuilderFactory.GetBuilder(context, projectConfig, builder, platformGenerator,
+                ProjectBuilderFactory.GetBuilder(context, llmOption, projectConfig, builder, platformGenerator,
                     promptBuilder);
 
             if (projectBuilder == null)
