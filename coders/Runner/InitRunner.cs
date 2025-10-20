@@ -38,7 +38,8 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Package = "com.example",
-            }
+            },
+            LlmMode = "none"
         });
 
         config.Projects.Add(new ProjectConfig
@@ -51,7 +52,8 @@ public class InitRunner
             {
                 Package = "com.example",
                 MainClass = "App"
-            }
+            },
+            LlmMode = "none"
         });
 
         config.Projects.Add(new ProjectConfig
@@ -63,7 +65,8 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Namespace = "Example",
-            }
+            },
+            LlmMode = "none"
         });
 
         config.Projects.Add(new ProjectConfig
@@ -75,7 +78,8 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Module = "example",
-            }
+            },
+            LlmMode = "none"
         });
 
         // Javascript
@@ -88,7 +92,8 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Module = "example",
-            }
+            },
+            LlmMode = "none"
         });
 
         // Typescript
@@ -101,7 +106,8 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Module = "example",
-            }
+            },
+            LlmMode = "none"
         });
 
         // Python
@@ -114,7 +120,8 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Module = "example",
-            }
+            },
+            LlmMode = "none"
         });
 
         // vuejs
@@ -127,7 +134,8 @@ public class InitRunner
             Options = new ProjectOption
             {
                 UseHistory = true
-            }
+            },
+            LlmMode = "none"
         });
 
         //
@@ -176,19 +184,15 @@ public class InitRunner
                     "compileOnly 'org.projectlombok:lombok'",
                     "developmentOnly 'org.springframework.boot:spring-boot-devtools'",
                 ]
-            }
+            },
+            LlmMode = "none"
         });
-        // camel case , double quote value
-        var serializer = new SerializerBuilder()
-            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
-            .WithNamingConvention(CamelCaseNamingConvention.Instance)
-            .Build();
 
-        var yml = serializer.Serialize(config);
+        var yml = CodersConfig.ToYml(config);
 
         var builder = new StringBuilder();
-        config.ToComment(builder);
-        builder.AppendLine();
+        // config.ToComment(builder);
+        // builder.AppendLine();
         builder.AppendLine(yml);
         FileUtil.WriteAllText(inputFile, builder.ToString());
 

@@ -71,9 +71,12 @@ public class BuildRunner
                 //     MainClass = "App",
                 //     Package = "com.coders." + project.ProjectId
                 // };
-                project.Options.Package = "com.coders." + project.ProjectId;
-                project.Options.MainClass = "App";
-                project.Options.Language = LanguageKey.Java;
+                if (project.Options != null)
+                {
+                    project.Options.Package = "com.coders." + project.ProjectId;
+                    project.Options.MainClass = "App";
+                    project.Options.Language = LanguageKey.Java;
+                }
             }
 
             if (Check(project) == false)

@@ -30,7 +30,7 @@
         <PublishTrimmed>false</PublishTrimmed>
         <PublishSingleFile>false</PublishSingleFile>
         <SelfContained>false</SelfContained>
-        <RuntimeIdentifier></RuntimeIdentifier>
+        <RuntimeIdentifier/>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -43,25 +43,25 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <!-- Debug: 로컬 소스 프로젝트 직접 참조 -->
     <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-        <ProjectReference Include="..\..\codersz_engine\JsspParser\JsspParser.csproj" />
-        <ProjectReference Include="..\..\codersz_engine\JsspPlatform\JsspPlatform.csproj" />
+        <ProjectReference Include="..\..\codersz_engine\JsspParser\JsspParser.csproj"/>
+        <ProjectReference Include="..\..\codersz_engine\JsspPlatform\JsspPlatform.csproj"/>
     </ItemGroup>
 
     <!-- Release: NuGet 패키지로 참조 -->
     <ItemGroup Condition="'$(Configuration)' == 'Release'">
-        <PackageReference Include="Codersz.JsspParser" Version="1.0.0" />
-        <PackageReference Include="Codersz.JsspPlatform" Version="1.0.0" />
+        <PackageReference Include="Codersz.JsspParser" Version="1.0.0"/>
+        <PackageReference Include="Codersz.JsspPlatform" Version="1.0.0"/>
     </ItemGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="CommandLineParser" Version="2.9.1"/>
-        <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
-        <PackageReference Include="LibGit2Sharp.NativeBinaries" Version="2.0.323" />
+        <PackageReference Include="LibGit2Sharp" Version="0.31.0"/>
+        <PackageReference Include="LibGit2Sharp.NativeBinaries" Version="2.0.323"/>
         <PackageReference Include="Serilog" Version="4.3.1-dev-02373"/>
         <PackageReference Include="Serilog.Sinks.Console" Version="6.0.1-dev-00953"/>
         <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
