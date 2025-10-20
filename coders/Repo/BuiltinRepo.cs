@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Jssp.Util;
-using NGit.Api;
+using LibGit2Sharp;
 
 namespace coders.Repo;
 
@@ -24,18 +24,11 @@ public class BuiltinRepo
 
         Console.WriteLine($"Cloning from {_repoUrl} to {_targetPath} ...");
 
-        // CloneCommand 사용
-        var result = Git.CloneRepository()
-            .SetURI(_repoUrl)
-            .SetBranch($"refs/heads/{branch}")
-            .SetDirectory(new Sharpen.FilePath(_targetPath))
-            .Call();
-
+        var options = new CloneOptions
+        {
+            BranchName = branch
+        };
+        var repoPath = Repository.Clone(_repoUrl, _targetPath, options);
         Console.WriteLine("Clone completed successfully!");
-
-        // 현재 브랜치 출력
-        var repo = result.GetRepository();
-        // [ko] 현재 브랜치는 {0}입니다.
-        Console.WriteLine($"Current branch: {repo.GetBranch()}");
     }
 }

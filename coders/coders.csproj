@@ -6,11 +6,11 @@
         <LangVersion>latestmajor</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <PublishAot>true</PublishAot>
         <InvariantGlobalization>false</InvariantGlobalization>
-        <Version>3.0.1</Version>
-        <AssemblyVersion>3.0.1</AssemblyVersion>
-        <FileVersion>3.0.1</FileVersion>
+        <PackAsTool>true</PackAsTool>
+        <Version>3.0.2</Version>
+        <AssemblyVersion>3.0.2</AssemblyVersion>
+        <FileVersion>3.0.2</FileVersion>
 
         <!-- NuGet Package Metadata -->
         <PackageId>coders</PackageId>
@@ -25,8 +25,15 @@
         <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(PackAsTool)'=='true'">
+        <PublishAot>false</PublishAot>
+        <PublishTrimmed>false</PublishTrimmed>
+        <PublishSingleFile>false</PublishSingleFile>
+        <SelfContained>false</SelfContained>
+        <RuntimeIdentifier></RuntimeIdentifier>
+    </PropertyGroup>
+
     <PropertyGroup>
-        <PublishTrimmed>true</PublishTrimmed>
         <!-- 리플렉션 직렬화를 기본값으로 다시 활성화 -->
         <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     </PropertyGroup>
@@ -53,7 +60,8 @@
     
     <ItemGroup>
         <PackageReference Include="CommandLineParser" Version="2.9.1"/>
-        <PackageReference Include="ngit2" Version="2.1.0.20130924" />
+        <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
+        <PackageReference Include="LibGit2Sharp.NativeBinaries" Version="2.0.323" />
         <PackageReference Include="Serilog" Version="4.3.1-dev-02373"/>
         <PackageReference Include="Serilog.Sinks.Console" Version="6.0.1-dev-00953"/>
         <PackageReference Include="Serilog.Sinks.File" Version="7.0.0"/>
