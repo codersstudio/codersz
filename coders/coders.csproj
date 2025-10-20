@@ -47,15 +47,9 @@
     </ItemGroup>
 
     <!-- Debug: 로컬 소스 프로젝트 직접 참조 -->
-    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <ItemGroup>
         <ProjectReference Include="..\..\codersz_engine\JsspParser\JsspParser.csproj"/>
         <ProjectReference Include="..\..\codersz_engine\JsspPlatform\JsspPlatform.csproj"/>
-    </ItemGroup>
-
-    <!-- Release: NuGet 패키지로 참조 -->
-    <ItemGroup Condition="'$(Configuration)' == 'Release'">
-        <PackageReference Include="Codersz.JsspParser" Version="1.0.0"/>
-        <PackageReference Include="Codersz.JsspPlatform" Version="1.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
