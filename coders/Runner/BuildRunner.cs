@@ -5,7 +5,6 @@ using Jssp.Parser;
 using Jssp.Parser.Base;
 using Jssp.Platform;
 using Jssp.Util;
-using JsspPlatform.Llm.Base;
 using JsspPlatform.Platform.Base;
 using JsspPlatform.Project.Base;
 using JsspPlatform.Prompt.Base;
@@ -16,8 +15,6 @@ namespace coders.Runner;
 public class BuildRunner
 {
     private CodersConfig? _appConfig;
-
-    private LlmClient? _llmClient;
 
     public async Task<int> Run(BuildOptions opts)
     {
@@ -43,14 +40,6 @@ public class BuildRunner
         var text = await File.ReadAllTextAsync(configFile);
 
         _appConfig = CodersConfig.FromYml(text);
-
-        _llmClient = LlmClient.GetLlmClient(_appConfig.LlmOptions);
-
-        if (_llmClient == null)
-        {
-            Log.Error("LlmClient is not initialized. Skipping LLM project building.");
-            return 0;
-        }
 
         foreach (var project in _appConfig.Projects)
         {
@@ -184,7 +173,7 @@ public class BuildRunner
             var promptBuilder = PromptBuilder.GetPromptBuilder(projectConfig);
 
             var projectBuilder =
-                ProjectBuilderFactory.GetBuilder(context, projectConfig, builder, platformGenerator!, _llmClient!,
+                ProjectBuilderFactory.GetBuilder(context, projectConfig, builder, platformGenerator,
                     promptBuilder);
 
             if (projectBuilder == null)
