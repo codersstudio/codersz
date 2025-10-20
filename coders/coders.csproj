@@ -47,10 +47,6 @@
     </ItemGroup>
 
     <!-- Debug: 로컬 소스 프로젝트 직접 참조 -->
-    <ItemGroup>
-        <ProjectReference Include="..\..\codersz_engine\JsspParser\JsspParser.csproj"/>
-        <ProjectReference Include="..\..\codersz_engine\JsspPlatform\JsspPlatform.csproj"/>
-    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="CommandLineParser" Version="2.9.1"/>
@@ -63,6 +59,11 @@
 
     <ItemGroup>
         <None Include="LICENSE.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\codersz_engine\JsspParser\JsspParser.csproj" />
+      <ProjectReference Include="..\..\codersz_engine\JsspPlatform\JsspPlatform.csproj" />
     </ItemGroup>
 
 </Project>
