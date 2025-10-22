@@ -1,6 +1,6 @@
 ﻿using coders.Options;
-using Jssp.Config;
-using Jssp.Platform;
+using JsspCore.Config;
+using JsspCore.Platform;
 using Serilog;
 
 namespace coders.Runner;

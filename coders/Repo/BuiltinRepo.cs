@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Jssp.Util;
+using JsspCore.Util;
 using LibGit2Sharp;
 
 namespace coders.Repo;

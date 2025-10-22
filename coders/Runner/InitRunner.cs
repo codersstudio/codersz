@@ -2,9 +2,9 @@
 using System.Text;
 using coders.Options;
 using coders.Repo;
-using Jssp.Config;
-using Jssp.Platform;
-using Jssp.Util;
+using JsspCore.Config;
+using JsspCore.Util;
+using JsspCore.Platform;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 

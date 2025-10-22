@@ -1,10 +1,10 @@
 ﻿using coders.Options;
 using Jssp.Builder;
-using Jssp.Config;
+using JsspCore.Config;
 using Jssp.Parser;
 using Jssp.Parser.Base;
-using Jssp.Platform;
-using Jssp.Util;
+using JsspCore.Util;
+using JsspCore.Platform;
 using JsspPlatform.Platform.Base;
 using JsspPlatform.Project.Base;
 using JsspPlatform.Prompt.Base;
