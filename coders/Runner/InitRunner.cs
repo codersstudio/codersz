@@ -31,6 +31,7 @@ public class InitRunner
 
         config.Projects.Add(new ProjectConfig
         {
+            ProjectId = "cpp_project_01",
             Name = "cpp project",
             Platform = PlatformKey.Cpp,
             Entry = "main.jssp",
@@ -43,6 +44,7 @@ public class InitRunner
 
         config.Projects.Add(new ProjectConfig
         {
+            ProjectId = "java_project_01",
             Name = "java project",
             Platform = PlatformKey.Java,
             Entry = "main.jssp",
@@ -56,6 +58,7 @@ public class InitRunner
 
         config.Projects.Add(new ProjectConfig
         {
+            ProjectId = "csharp_project_01",
             Name = "csharp project",
             Platform = PlatformKey.CSharp,
             Entry = "main.jssp",
@@ -68,6 +71,7 @@ public class InitRunner
 
         config.Projects.Add(new ProjectConfig
         {
+            ProjectId = "dart",
             Name = "dart project",
             Platform = PlatformKey.Dart,
             Entry = "main.jssp",
@@ -81,7 +85,8 @@ public class InitRunner
         // Javascript
         config.Projects.Add(new ProjectConfig
         {
-            Name = "dart project",
+            ProjectId = "javascript",
+            Name = "javascript project",
             Platform = PlatformKey.Javascript,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Javascript,
@@ -94,6 +99,7 @@ public class InitRunner
         // Typescript
         config.Projects.Add(new ProjectConfig
         {
+            ProjectId = "typescript",
             Name = "typescript project",
             Platform = PlatformKey.Typescript,
             Entry = "main.jssp",
@@ -107,6 +113,7 @@ public class InitRunner
         // Python
         config.Projects.Add(new ProjectConfig
         {
+            ProjectId = "python",
             Name = "python project",
             Platform = PlatformKey.Python,
             Entry = "main.jssp",
@@ -120,6 +127,7 @@ public class InitRunner
         // vuejs
         config.Projects.Add(new ProjectConfig
         {
+            ProjectId = "vuejs",
             Name = "vuejs project",
             Platform = PlatformKey.VueJs,
             Entry = "main_html.jssp",
@@ -130,21 +138,9 @@ public class InitRunner
             }
         });
 
-        //
-        // config.Projects.Add(new ProjectConfig
-        // {
-        //     Name = "rust project",
-        //     Platform = PlatformKey.Rust,
-        //     Entry = "main.jssp",
-        //     OutPath = "./out/" + PlatformKey.Rust,
-        //     Options = new ProjectOption
-        //     {
-        //         Module = "example",
-        //     }
-        // });
-
         config.Projects.Add(new ProjectConfig
         {
+            ProjectId = "springboot",
             Name = "springboot project",
             Platform = PlatformKey.Springboot,
             Entry = "springboot.jssp",

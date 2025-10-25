@@ -35,6 +35,7 @@ public class PublishRunner
 
         var projectConfig = new ProjectConfig
         {
+            ProjectId = PlatformKey.Coders,
             Platform = PlatformKey.Coders,
             Name = "Coders Project",
             OutPath = "",
