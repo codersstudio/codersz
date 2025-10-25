@@ -8,7 +8,6 @@ using JsspCore.Util;
 using JsspCore.Platform;
 using JsspPlatform.Platform.Base;
 using JsspPlatform.Project.Base;
-using JsspPlatform.Prompt.Base;
 using Serilog;
 using Serilog.Events;
 
@@ -219,11 +218,8 @@ public class BuildRunner
 
             var platformGenerator = PlatformGeneratorFactory.GetGenerator(context, parserOption, projectConfig);
 
-            var promptBuilder = PromptBuilder.GetPromptBuilder(projectConfig);
-
             var projectBuilder =
-                ProjectBuilderFactory.GetBuilder(context, null, projectConfig, builder, platformGenerator,
-                    promptBuilder);
+                ProjectBuilderFactory.GetBuilder(context, projectConfig, builder, platformGenerator);
 
             if (projectBuilder == null)
             {

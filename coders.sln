@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspParser", "..\codersz_en
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspPlatform", "..\codersz_engine\JsspPlatform\JsspPlatform.csproj", "{D6FD1A52-1E43-4658-84B3-8054A5E755B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspLlm", "..\codersz_engine\JsspLlm\JsspLlm.csproj", "{7450DD76-A135-4AF3-8202-95F36DCB11BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{D6FD1A52-1E43-4658-84B3-8054A5E755B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6FD1A52-1E43-4658-84B3-8054A5E755B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6FD1A52-1E43-4658-84B3-8054A5E755B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7450DD76-A135-4AF3-8202-95F36DCB11BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7450DD76-A135-4AF3-8202-95F36DCB11BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7450DD76-A135-4AF3-8202-95F36DCB11BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7450DD76-A135-4AF3-8202-95F36DCB11BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
