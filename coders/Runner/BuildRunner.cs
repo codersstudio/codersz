@@ -20,10 +20,12 @@ public class BuildRunner
 
     public async Task<int> Run(BuildOptions opts)
     {
+        var consoleLevel = opts.Verbose ? LogEventLevel.Information : LogEventLevel.Warning;
+
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Warning)
-            .WriteTo.File("log.txt")
+            .MinimumLevel.Verbose()
+            .WriteTo.Console(restrictedToMinimumLevel: consoleLevel)
+            .WriteTo.File("log.txt", restrictedToMinimumLevel: LogEventLevel.Information)
             .CreateLogger();
 
 
@@ -59,8 +61,16 @@ public class BuildRunner
             return 1;
         }
 
-        var usingInternalEngine = opts.Engine == BuildGenerationMode.Internal;
-        var engineLabel = usingInternalEngine ? "internal" : "llm";
+        var engineValue = string.IsNullOrWhiteSpace(opts.Engine) ? BuildGenerationMode.Llm : opts.Engine.Trim();
+        if (BuildGenerationMode.IsValid(engineValue) == false)
+        {
+            Log.Error("Unknown engine '{EngineValue}'. Use 'llm' or 'internal'.", engineValue);
+            return 1;
+        }
+
+        var usingInternalEngine = BuildGenerationMode.IsInternal(engineValue);
+        var engineLabel = usingInternalEngine ? BuildGenerationMode.Internal : BuildGenerationMode.Llm;
+        Log.Information("Console log level set to {LogLevel}.", consoleLevel);
         Log.Information("Using {EngineMode} generation engine.", engineLabel);
 
         foreach (var project in _appConfig.Projects)
@@ -174,6 +184,12 @@ public class BuildRunner
 
     private void BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig)
     {
+        // [todo] Implement coders internal engine build workflow.
+        Log.Warning("LLM-based build is not yet implemented. Using internal engine as a fallback.");
+    }
+
+    private void BuildWithInternalEngine(ProjectConfig projectConfig)
+    {
         var inputFile = projectConfig.Entry;
 
         var text = File.ReadAllText(projectConfig.Entry);
@@ -206,7 +222,7 @@ public class BuildRunner
             var promptBuilder = PromptBuilder.GetPromptBuilder(projectConfig);
 
             var projectBuilder =
-                ProjectBuilderFactory.GetBuilder(context, llmOption, projectConfig, builder, platformGenerator,
+                ProjectBuilderFactory.GetBuilder(context, null, projectConfig, builder, platformGenerator,
                     promptBuilder);
 
             if (projectBuilder == null)
@@ -221,11 +237,5 @@ public class BuildRunner
         {
             Log.Error(e, "Error parsing file '{InputFile}'.", inputFile);
         }
-    }
-
-    private void BuildWithInternalEngine(ProjectConfig projectConfig)
-    {
-        // [todo] Implement coders internal engine build workflow.
-        Log.Warning("Internal engine build is not yet implemented for project '{ProjectName}'.", projectConfig.Name);
     }
 }

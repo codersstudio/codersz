@@ -11,7 +11,10 @@ public class BuildOptions
     [Option('p', "projectId", Required = true, HelpText = "ProjectId to build. This option is required.")]
     public string ProjectId { get; set; } = string.Empty;
 
-    [Option("engine", Required = false, Default = BuildGenerationMode.Llm,
+    [Option('e', "engine", Required = false, Default = BuildGenerationMode.Llm,
         HelpText = "Generation engine to use: 'llm' (default) or 'internal'.")]
-    public BuildGenerationMode Engine { get; set; } = BuildGenerationMode.Llm;
+    public string Engine { get; set; } = BuildGenerationMode.Llm;
+
+    [Option('v', HelpText = "Increase console verbosity to Information. Default is Warning.")]
+    public bool Verbose { get; set; }
 }
