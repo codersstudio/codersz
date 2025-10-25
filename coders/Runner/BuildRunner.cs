@@ -1,13 +1,16 @@
 ﻿using System;
 using coders.Options;
 using Jssp.Builder;
+using Jssp.Builder.Llm;
 using JsspCore.Config;
 using Jssp.Parser;
 using Jssp.Parser.Base;
 using JsspCore.Util;
 using JsspCore.Platform;
 using JsspPlatform.Platform.Base;
+using JsspPlatform.Platform.Llm;
 using JsspPlatform.Project.Base;
+using JsspPlatform.Project.Llm;
 using Serilog;
 using Serilog.Events;
 
@@ -183,8 +186,43 @@ public class BuildRunner
 
     private void BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig)
     {
-        // [todo] Implement coders internal engine build workflow.
-        Log.Warning("LLM-based build is not yet implemented. Using internal engine as a fallback.");
+        var inputFile = projectConfig.Entry;
+
+        var text = File.ReadAllText(projectConfig.Entry);
+
+        var parserOption = new ParserOption(inputFile, projectConfig.OutPath);
+
+        parserOption.BuiltInPath.Add(PathUtil.Combine(PathUtil.ModulePath, "builtin"));
+
+        var context = new ParserContext
+        {
+            Platform = projectConfig.Platform
+        };
+
+        var symbolContainer = new SymbolContainer();
+
+        var symbolStack = new SymbolStack();
+
+        ImportContext.Instance.Clear();
+
+        var parser = new JsspParser(text, parserOption, context, symbolStack, symbolContainer);
+
+        try
+        {
+            parser.Parse();
+
+            var builder = new LlmBuilder(context, projectConfig);
+
+            var platformGenerator = new LlmPlatformGenerator(context, llmOption, parserOption, projectConfig);
+
+            var projectBuilder = new LlmProjectBuilder(context, llmOption, projectConfig, builder, platformGenerator);
+
+            projectBuilder.Build(null);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error parsing file '{InputFile}'.", inputFile);
+        }
     }
 
     private void BuildWithInternalEngine(ProjectConfig projectConfig)
