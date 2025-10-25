@@ -10,6 +10,7 @@ using JsspPlatform.Platform.Base;
 using JsspPlatform.Project.Base;
 using JsspPlatform.Prompt.Base;
 using Serilog;
+using Serilog.Events;
 
 namespace coders.Runner;
 
@@ -20,7 +21,8 @@ public class BuildRunner
     public async Task<int> Run(BuildOptions opts)
     {
         Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
+            .MinimumLevel.Information()
+            .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Warning)
             .WriteTo.File("log.txt")
             .CreateLogger();
 
@@ -57,6 +59,10 @@ public class BuildRunner
             return 1;
         }
 
+        var usingInternalEngine = opts.Engine == BuildGenerationMode.Internal;
+        var engineLabel = usingInternalEngine ? "internal" : "llm";
+        Log.Information("Using {EngineMode} generation engine.", engineLabel);
+
         foreach (var project in _appConfig.Projects)
         {
             if (string.Equals(project.ProjectId, targetProjectId, StringComparison.OrdinalIgnoreCase) == false)
@@ -67,7 +73,7 @@ public class BuildRunner
                 continue;
             }
 
-            Log.Information("{ProjectName} Build started", project.Name);
+            Log.Information("Building project '{ProjectName}'.", project.Name);
 
             if (project.Platform == PlatformKey.Coders)
             {
@@ -94,7 +100,7 @@ public class BuildRunner
 
             if (Check(project) == false)
             {
-                Log.Error($"Project '{project.Name}' is not valid. Skipping build.");
+                Log.Error("Project '{ProjectName}' is not valid. Skipping build.", project.Name);
                 continue;
             }
 
@@ -112,9 +118,16 @@ public class BuildRunner
                 Directory.CreateDirectory(project.OutPath);
             }
 
-            Build(_appConfig.LlmOptions, project);
+            if (usingInternalEngine)
+            {
+                BuildWithInternalEngine(project);
+            }
+            else
+            {
+                BuildWithLlm(_appConfig.LlmOptions, project);
+            }
 
-            Log.Information("{ProjectName} Build completed", project.Name);
+            Log.Information("Build completed: {ProjectName}", project.Name);
         }
 
         return 0;
@@ -124,28 +137,29 @@ public class BuildRunner
     {
         if (string.IsNullOrEmpty(projectConfig.Name))
         {
-            Console.WriteLine("Project name is not specified in the configuration.");
+            Log.Error("Project name is not specified in the configuration.");
             return false;
         }
 
         var platform = projectConfig.Platform;
         if (string.IsNullOrEmpty(platform))
         {
-            Console.WriteLine($"Platform is not specified for project '{projectConfig.Name}'.");
+            Log.Error("Platform is not specified for project '{ProjectName}'.", projectConfig.Name);
             return false;
         }
 
         if (CheckPlatform(platform) == false)
         {
-            Console.WriteLine($"Platform '{platform}' is not supported for project '{projectConfig.Name}'.");
-            var keys = PlatformKey.GetPlatformKeys();
-            Console.WriteLine("Supported platforms are: " + string.Join(", ", keys));
+            var supported = string.Join(", ", PlatformKey.GetPlatformKeys());
+            Log.Error(
+                "Platform '{Platform}' is not supported for project '{ProjectName}'. Supported platforms: {SupportedPlatforms}",
+                platform, projectConfig.Name, supported);
             return false;
         }
 
         if (string.IsNullOrEmpty(projectConfig.OutPath))
         {
-            Console.WriteLine($"Output path is not specified for project '{projectConfig.Name}'.");
+            Log.Error("Output path is not specified for project '{ProjectName}'.", projectConfig.Name);
             return false;
         }
 
@@ -155,15 +169,10 @@ public class BuildRunner
     private bool CheckPlatform(string platform)
     {
         var keys = PlatformKey.GetPlatformKeys();
-        if (keys.Contains(platform))
-        {
-            return true;
-        }
-
-        return false;
+        return keys.Contains(platform);
     }
 
-    private void Build(LlmOption llmOption, ProjectConfig projectConfig)
+    private void BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig)
     {
         var inputFile = projectConfig.Entry;
 
@@ -210,10 +219,13 @@ public class BuildRunner
         }
         catch (Exception e)
         {
-#if DEBUG
-            Console.WriteLine(e);
-#endif
-            Console.WriteLine($"Error parsing file '{inputFile}': {e.Message}");
+            Log.Error(e, "Error parsing file '{InputFile}'.", inputFile);
         }
+    }
+
+    private void BuildWithInternalEngine(ProjectConfig projectConfig)
+    {
+        // [todo] Implement coders internal engine build workflow.
+        Log.Warning("Internal engine build is not yet implemented for project '{ProjectName}'.", projectConfig.Name);
     }
 }
