@@ -31,7 +31,7 @@ public class InitRunner
 
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "cpp_project_01",
+            ProjectId = "cpp",
             Name = "cpp project",
             Platform = PlatformKey.Cpp,
             Entry = "main.jssp",
@@ -44,7 +44,7 @@ public class InitRunner
 
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "java_project_01",
+            ProjectId = "java",
             Name = "java project",
             Platform = PlatformKey.Java,
             Entry = "main.jssp",
@@ -58,7 +58,7 @@ public class InitRunner
 
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "csharp_project_01",
+            ProjectId = "csharp",
             Name = "csharp project",
             Platform = PlatformKey.CSharp,
             Entry = "main.jssp",
@@ -143,7 +143,7 @@ public class InitRunner
             ProjectId = "springboot",
             Name = "springboot project",
             Platform = PlatformKey.Springboot,
-            Entry = "springboot.jssp",
+            Entry = "controller.jssp",
             OutPath = "./out/" + PlatformKey.Springboot,
             Options = new ProjectOption
             {
@@ -183,27 +183,43 @@ public class InitRunner
         builder.AppendLine(yml);
         FileUtil.WriteAllText(inputFile, builder.ToString());
 
-        // main.jssp 파일 생성
+        // controller.jssp 파일 생성
         {
-            const string mainFile = "main.jssp";
+            const string mainFile = "controller.jssp";
             const string content = """
-                                   func main() {
-                                       @console.log('Hello World !');
+                                   [baseUrl="/api/v1", comment='Sample API']
+                                   controller SampleController {
+                                       [method=get, route='/hello', id=100, comment='Sample API']
+                                       func hello(@param("name") name string) string {
+                                           return "Hello " + name + "!";
+                                       }
                                    }
                                    """;
             FileUtil.WriteAllText(mainFile, content);
         }
-
-        // springboot.jssp 파일 생성
+        
+        // api.jssp 파일 생성
         {
-            const string mainFile = "springboot.jssp";
+            const string mainFile = "api.jssp";
             const string content = """
-                                   [baseUrl="/api/v1", comment='Sample API']
-                                   controller HelloController {
-                                       [method=get, route='/hello', id=100, comment='Hello API']
-                                       func hello(name string) string {
-                                           return "Hello " + name + "!";
-                                       }
+                                   import 'controller.jssp';
+                                   
+                                   api SampleApi from @controller.SampleController {
+                                     var server string;
+                                   }
+                                   """;
+            FileUtil.WriteAllText(mainFile, content);
+        }
+        
+        // main.jssp 파일 생성
+        {
+            const string mainFile = "main.jssp";
+            const string content = """
+                                   import 'api.jssp';
+                                   func main() {
+                                       var api = SampleApi();
+                                       var res = api.hello("World");
+                                       @console.log(res);
                                    }
                                    """;
             FileUtil.WriteAllText(mainFile, content);

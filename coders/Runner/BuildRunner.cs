@@ -1,4 +1,5 @@
-﻿using coders.Options;
+﻿using System;
+using coders.Options;
 using Jssp.Builder;
 using JsspCore.Config;
 using Jssp.Parser;
@@ -41,8 +42,31 @@ public class BuildRunner
 
         _appConfig = CodersConfig.FromYml(text);
 
+        var targetProjectId = string.IsNullOrWhiteSpace(opts.ProjectId) ? null : opts.ProjectId.Trim();
+
+        if (targetProjectId == null)
+        {
+            Log.Error("The build option 'projectId' is required. Provide it with --projectId <value>.");
+            return 1;
+        }
+
+        if (_appConfig.Projects.All(p =>
+                string.Equals(p.ProjectId, targetProjectId, StringComparison.OrdinalIgnoreCase) == false))
+        {
+            Log.Error("No project found with ProjectId '{ProjectId}'.", targetProjectId);
+            return 1;
+        }
+
         foreach (var project in _appConfig.Projects)
         {
+            if (string.Equals(project.ProjectId, targetProjectId, StringComparison.OrdinalIgnoreCase) == false)
+            {
+                Log.Information(
+                    "Skipping project '{ProjectName}' with ProjectId '{ProjectId}' (target: '{TargetProjectId}').",
+                    project.Name, project.ProjectId, targetProjectId);
+                continue;
+            }
+
             Log.Information("{ProjectName} Build started", project.Name);
 
             if (project.Platform == PlatformKey.Coders)

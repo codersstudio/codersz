@@ -7,4 +7,7 @@ public class BuildOptions
 {
     [Option('c', "config", Required = false, HelpText = "Path to the configuration file (default: config.yaml).")]
     public string? ConfigFile { get; set; }
+
+    [Option('p', "projectId", Required = true, HelpText = "ProjectId to build. This option is required.")]
+    public string ProjectId { get; set; } = string.Empty;
 }
