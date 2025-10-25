@@ -42,8 +42,7 @@ public class PublishRunner
             Options = new ProjectOption
             {
                 Language = LanguageKey.Java
-            },
-            LlmMode = "none"
+            }
         };
 
         return 0;

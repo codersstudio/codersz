@@ -38,8 +38,7 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Package = "com.example",
-            },
-            LlmMode = "none"
+            }
         });
 
         config.Projects.Add(new ProjectConfig
@@ -52,8 +51,7 @@ public class InitRunner
             {
                 Package = "com.example",
                 MainClass = "App"
-            },
-            LlmMode = "none"
+            }
         });
 
         config.Projects.Add(new ProjectConfig
@@ -65,8 +63,7 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Namespace = "Example",
-            },
-            LlmMode = "none"
+            }
         });
 
         config.Projects.Add(new ProjectConfig
@@ -78,8 +75,7 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Module = "example",
-            },
-            LlmMode = "none"
+            }
         });
 
         // Javascript
@@ -92,8 +88,7 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Module = "example",
-            },
-            LlmMode = "none"
+            }
         });
 
         // Typescript
@@ -106,8 +101,7 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Module = "example",
-            },
-            LlmMode = "none"
+            }
         });
 
         // Python
@@ -120,8 +114,7 @@ public class InitRunner
             Options = new ProjectOption
             {
                 Module = "example",
-            },
-            LlmMode = "none"
+            }
         });
 
         // vuejs
@@ -134,8 +127,7 @@ public class InitRunner
             Options = new ProjectOption
             {
                 UseHistory = true
-            },
-            LlmMode = "none"
+            }
         });
 
         //
@@ -184,8 +176,7 @@ public class InitRunner
                     "compileOnly 'org.projectlombok:lombok'",
                     "developmentOnly 'org.springframework.boot:spring-boot-devtools'",
                 ]
-            },
-            LlmMode = "none"
+            }
         });
 
         var yml = CodersConfig.ToYml(config);
