@@ -10,28 +10,12 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        Parser.Default.ParseArguments<InitOptions, BuildOptions, PublishOptions, DoctorOptions>(args)
-            .MapResult<InitOptions, BuildOptions, PublishOptions, DoctorOptions, int>(
+        Parser.Default.ParseArguments<InitOptions, BuildOptions>(args)
+            .MapResult<InitOptions, BuildOptions, int>(
                 RunInit,
                 RunBuild,
-                RunPublish,
-                RunDoctor,
                 errs => 0
             );
-    }
-
-    private static int RunPublish(PublishOptions options)
-    {
-        var runner = new PublishRunner();
-        var task = runner.Run(options);
-        task.Wait();
-        return task.Result;
-    }
-
-    private static int RunDoctor(DoctorOptions opts)
-    {
-        var runner = new DoctorRunner();
-        return runner.Run(opts);
     }
 
     private static int RunBuild(BuildOptions opts)

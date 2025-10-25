@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Text;
 using coders.Options;
 using coders.Repo;
@@ -17,10 +19,16 @@ public class InitRunner
         Justification = "<Pending>")]
     public int Run(InitOptions opts)
     {
+        const string inputFile = CodersConfig.YmlFile;
+
+        if (File.Exists(inputFile))
+        {
+            Console.WriteLine("coders.yml already exists.");
+            return 0;
+        }
+
         BuiltinRepo.Instance.Checkout("main");
         TemplateRepo.Instance.Checkout("main");
-
-        const string inputFile = CodersConfig.YmlFile;
 
         CodersConfig config;
 
