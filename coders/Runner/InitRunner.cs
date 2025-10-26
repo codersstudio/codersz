@@ -40,7 +40,7 @@ public class InitRunner
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "cpp",
-            Name = "cpp project",
+            Name = "App",
             Platform = PlatformKey.Cpp,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Cpp,
@@ -53,7 +53,7 @@ public class InitRunner
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "java",
-            Name = "java project",
+            Name = "App",
             Platform = PlatformKey.Java,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Java,
@@ -67,7 +67,7 @@ public class InitRunner
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "csharp",
-            Name = "csharp project",
+            Name = "App",
             Platform = PlatformKey.CSharp,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.CSharp,
@@ -80,7 +80,7 @@ public class InitRunner
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "dart",
-            Name = "dart project",
+            Name = "App",
             Platform = PlatformKey.Dart,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Dart,
@@ -94,7 +94,7 @@ public class InitRunner
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "javascript",
-            Name = "javascript project",
+            Name = "App",
             Platform = PlatformKey.Javascript,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Javascript,
@@ -108,7 +108,7 @@ public class InitRunner
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "typescript",
-            Name = "typescript project",
+            Name = "App",
             Platform = PlatformKey.Typescript,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Typescript,
@@ -122,7 +122,7 @@ public class InitRunner
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "python",
-            Name = "python project",
+            Name = "App",
             Platform = PlatformKey.Python,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Python,
@@ -136,7 +136,7 @@ public class InitRunner
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "vuejs",
-            Name = "vuejs project",
+            Name = "App",
             Platform = PlatformKey.VueJs,
             Entry = "main_html.jssp",
             OutPath = "./out/" + PlatformKey.VueJs,
@@ -149,7 +149,7 @@ public class InitRunner
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "springboot",
-            Name = "springboot project",
+            Name = "App",
             Platform = PlatformKey.Springboot,
             Entry = "controller.jssp",
             OutPath = "./out/" + PlatformKey.Springboot,
