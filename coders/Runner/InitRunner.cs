@@ -195,6 +195,8 @@ public class InitRunner
         {
             const string mainFile = "controller.jssp";
             const string content = """
+                                   import 'property.jssp';
+                                   
                                    [baseUrl="/api/v1", comment='Sample API']
                                    controller SampleController {
                                        [method=get, route='/hello', id=100, comment='Sample API']
