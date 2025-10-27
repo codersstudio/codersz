@@ -23,7 +23,7 @@ public class InitRunner
 
         if (File.Exists(inputFile))
         {
-            Console.WriteLine("coders.yml already exists.");
+            Console.WriteLine($"{CodersConfig.YmlFile} already exists.");
             return 0;
         }
 
@@ -150,9 +150,9 @@ public class InitRunner
         {
             ProjectId = "springboot",
             Name = "App",
-            Platform = PlatformKey.Springboot,
+            Platform = PlatformKey.SpringBoot,
             Entry = "controller.jssp",
-            OutPath = "./out/" + PlatformKey.Springboot,
+            OutPath = "./out/" + PlatformKey.SpringBoot,
             Options = new ProjectOption
             {
                 Package = "com.example.demo",
@@ -205,27 +205,43 @@ public class InitRunner
                                    """;
             FileUtil.WriteAllText(mainFile, content);
         }
-        
+
         // api.jssp 파일 생성
         {
             const string mainFile = "api.jssp";
             const string content = """
                                    import 'controller.jssp';
-                                   
+
                                    api SampleApi from @controller.SampleController {
-                                     var server string;
+                                     var baseUrl string;
                                    }
                                    """;
             FileUtil.WriteAllText(mainFile, content);
         }
-        
+
+        // property.jssp 파일 생성
+        {
+            const string file = "property.jssp";
+            const string content = """
+                                   property {
+                                       baseUrl = "http://localhost:8080";
+                                   }
+                                   property dev {
+                                       baseUrl = "https://dev.example.com";
+                                   }
+                                   """;
+            FileUtil.WriteAllText(file, content);
+        }
+
         // main.jssp 파일 생성
         {
             const string mainFile = "main.jssp";
             const string content = """
+                                   import 'property.jssp';
                                    import 'api.jssp';
                                    func main() {
                                        var api = SampleApi();
+                                       api.baseUrl = @property.baseUrl;
                                        var res = api.hello("World");
                                        @console.log(res);
                                    }
