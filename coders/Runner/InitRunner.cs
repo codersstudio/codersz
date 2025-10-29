@@ -278,7 +278,7 @@ public class InitRunner
                                    }
 
                                    mapper TodoMapper {
-                                       query selectById(id bigint) Todo {
+                                       query selectById(id bigint) TodoVo {
                                            select id, title, completed
                                            from tb_todo
                                            where id = :id;
