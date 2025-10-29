@@ -248,7 +248,7 @@ public class InitRunner
                                        var email string;
                                    }
 
-                                   entity Todo {
+                                   entity TodoVo {
                                        var id int;
                                        var title string;
                                        var completed bool;
@@ -284,7 +284,7 @@ public class InitRunner
                                            where id = :id;
                                        }
                                        
-                                       query selectAll(id bigint) list<Todo> {
+                                       query selectAll(id bigint) list<TodoVo> {
                                            select id, title, completed
                                            from tb_todo
                                            where id = :id;
