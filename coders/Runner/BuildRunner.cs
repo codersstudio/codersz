@@ -50,17 +50,18 @@ public class BuildRunner
 
         var targetProjectId = string.IsNullOrWhiteSpace(opts.ProjectId) ? null : opts.ProjectId.Trim();
 
-        if (targetProjectId == null)
+        if (string.IsNullOrEmpty(targetProjectId))
         {
-            Log.Error("The build option 'projectId' is required. Provide it with --projectId <value>.");
-            return 1;
+            // only build projects without projectId    
         }
-
-        if (_appConfig.Projects.All(p =>
-                string.Equals(p.ProjectId, targetProjectId, StringComparison.OrdinalIgnoreCase) == false))
+        else
         {
-            Log.Error("No project found with ProjectId '{ProjectId}'.", targetProjectId);
-            return 1;
+            if (_appConfig.Projects.All(p =>
+                    !string.Equals(p.ProjectId, targetProjectId, StringComparison.OrdinalIgnoreCase)))
+            {
+                Log.Error("No project found with ProjectId '{ProjectId}'.", targetProjectId);
+                return 1;
+            }
         }
 
         var engineValue = string.IsNullOrWhiteSpace(opts.Engine) ? BuildGenerationMode.Llm : opts.Engine.Trim();
@@ -75,27 +76,38 @@ public class BuildRunner
         Log.Information("Console log level set to {LogLevel}.", consoleLevel);
         Log.Information("Using {EngineMode} generation engine.", engineLabel);
 
-        foreach (var project in _appConfig.Projects)
+        // Build projects
+
+        if (string.IsNullOrEmpty(targetProjectId))
         {
-            if (string.Equals(project.ProjectId, targetProjectId, StringComparison.OrdinalIgnoreCase) == false)
+            ParseOnly();
+        }
+        else
+        {
+            var project = _appConfig.Projects.FirstOrDefault(p => p.ProjectId == targetProjectId);
+
+            if (project == null)
             {
-                Log.Information(
-                    "Skipping project '{ProjectName}' with ProjectId '{ProjectId}' (target: '{TargetProjectId}').",
-                    project.Name, project.ProjectId, targetProjectId);
-                continue;
+                throw new InvalidOperationException(
+                    $"Project with ProjectId '{targetProjectId}' not found in configuration.");
+            }
+
+            if (!Check(project))
+            {
+                throw new InvalidOperationException(
+                    $"Project with ProjectId '{targetProjectId}' is not valid.");
+            }
+
+            if (!File.Exists(project.Entry))
+            {
+                throw new FileNotFoundException(
+                    $"Entry file '{project.Entry}' for project '{project.Name}' not found.");
             }
 
             Log.Information("Building project '{ProjectName}'.", project.Name);
 
             if (project.Platform == PlatformKey.Coders)
             {
-                if (project.ProjectId == null)
-                {
-                    Log.Error("ProjectId is not specified for Coders project '{ProjectName}'. Skipping build.",
-                        project.Name);
-                    continue;
-                }
-
                 // project.Options = new ProjectOption
                 // {
                 //     Language = LanguageKey.Java,
@@ -110,22 +122,8 @@ public class BuildRunner
                 }
             }
 
-            if (Check(project) == false)
-            {
-                Log.Error("Project '{ProjectName}' is not valid. Skipping build.", project.Name);
-                continue;
-            }
 
-            if (File.Exists(project.Entry) == false)
-            {
-                Log.Error(
-                    "Entry file '{ProjectEntry}' for project '{ProjectName}' does not exist.", project.Entry, project
-                        .Name);
-                Log.Error("Project '{ProjectName}' is not valid. Skipping build.", project.Name);
-                continue;
-            }
-
-            if (Directory.Exists(project.OutPath) == false)
+            if (!Directory.Exists(project.OutPath))
             {
                 Directory.CreateDirectory(project.OutPath);
             }
@@ -218,6 +216,51 @@ public class BuildRunner
             var projectBuilder = new LlmProjectBuilder(context, llmOption, projectConfig, builder, platformGenerator);
 
             projectBuilder.Build(null);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error parsing file '{InputFile}'.", inputFile);
+        }
+    }
+
+    private void ParseOnly()
+    {
+        if (_appConfig == null)
+        {
+            Log.Error("Application configuration is not loaded.");
+            return;
+        }
+
+        var inputFile = _appConfig.Entry;
+
+        var text = File.ReadAllText(_appConfig.Entry);
+
+        var context = new ParserContext
+        {
+            Platform = string.Empty
+        };
+
+        var symbolContainer = new SymbolContainer();
+
+        var symbolStack = new SymbolStack();
+
+        ImportContext.Instance.Clear();
+
+        var currentDir = Directory.GetCurrentDirectory();
+
+        var parserOption = new ParserOption(inputFile, currentDir);
+
+#if DEBUG
+        parserOption.BuiltInPath.Add(@"D:\dev\codersz\codersz_builtin");
+#else
+        parserOption.BuiltInPath.Add(PathUtil.Combine(PathUtil.ModulePath, "builtin"));
+#endif
+
+        var parser = new JsspParser(text, parserOption, context, symbolStack, symbolContainer);
+
+        try
+        {
+            parser.Parse();
         }
         catch (Exception e)
         {

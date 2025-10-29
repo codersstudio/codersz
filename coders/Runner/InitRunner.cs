@@ -21,10 +21,13 @@ public class InitRunner
     {
         const string inputFile = CodersConfig.YmlFile;
 
-        if (File.Exists(inputFile))
+        if (!opts.Force)
         {
-            Console.WriteLine($"{CodersConfig.YmlFile} already exists.");
-            return 0;
+            if (File.Exists(inputFile))
+            {
+                Console.WriteLine($"{CodersConfig.YmlFile} already exists.");
+                return 0;
+            }
         }
 
         BuiltinRepo.Instance.Checkout("main");
@@ -34,6 +37,7 @@ public class InitRunner
 
         config = new CodersConfig
         {
+            Entry = "main.jssp",
             Projects = []
         };
 
@@ -191,36 +195,6 @@ public class InitRunner
         builder.AppendLine(yml);
         FileUtil.WriteAllText(inputFile, builder.ToString());
 
-        // controller.jssp 파일 생성
-        {
-            const string mainFile = "controller.jssp";
-            const string content = """
-                                   import 'property.jssp';
-                                   
-                                   [baseUrl="/api/v1", comment='Sample API']
-                                   controller SampleController {
-                                       [method=get, route='/hello', id=100, comment='Sample API']
-                                       func hello(@param("name") name string) string {
-                                           return "Hello " + name + "!";
-                                       }
-                                   }
-                                   """;
-            FileUtil.WriteAllText(mainFile, content);
-        }
-
-        // api.jssp 파일 생성
-        {
-            const string mainFile = "api.jssp";
-            const string content = """
-                                   import 'controller.jssp';
-
-                                   api SampleApi from @controller.SampleController {
-                                     var baseUrl string;
-                                   }
-                                   """;
-            FileUtil.WriteAllText(mainFile, content);
-        }
-
         // property.jssp 파일 생성
         {
             const string file = "property.jssp";
@@ -231,9 +205,201 @@ public class InitRunner
                                    property dev {
                                        baseUrl = "https://dev.example.com";
                                    }
+                                   property prod {
+                                       baseUrl = "https://api.example.com";
+                                   }
                                    """;
             FileUtil.WriteAllText(file, content);
         }
+
+        // schema.jssp 파일 생성
+        {
+            const string schemaFile = "schema.jssp";
+            const string content = """
+                                   domain Name varchar(100);
+                                   domain Email varchar(100);
+                                   domain Title varchar(256);
+                                   domain YesNo char(1);
+
+                                   table tb_user {
+                                       id bigint auto;
+                                       name Name;
+                                       email Email;
+                                       created_at datetime;
+                                       updated_at datetime;
+                                       key(id);
+                                       unique index(email);
+                                       index(name);
+                                   }
+
+                                   table tb_todo {
+                                       id bigint auto;
+                                       title Title;
+                                       completed YesNo;
+                                       created_at datetime;
+                                       updated_at datetime;
+                                       key(id);
+                                       index(id, completed);
+                                   }
+
+                                   entity UserVo {
+                                       var id int;
+                                       var name string;
+                                       var email string;
+                                   }
+
+                                   entity Todo {
+                                       var id int;
+                                       var title string;
+                                       var completed bool;
+                                   }
+                                   """;
+            FileUtil.WriteAllText(schemaFile, content);
+        }
+
+        // mapper.jssp 파일 생성
+        {
+            const string mapperFile = "mapper.jssp";
+            const string content = """
+                                   import 'schema.jssp';
+
+                                   // mapper UserMapper from tb_user {
+                                   mapper UserMapper {
+                                       query selectById(id bigint) UserVo {
+                                           select id, name, email
+                                           from tb_user
+                                           where id = :id;
+                                       }
+
+                                       query insertUser(name Name, email Email) int {
+                                           insert into tb_user (name, email, created_at, updated_at)
+                                           values (:name, :email, now(), now());
+                                       }
+                                   }
+
+                                   mapper TodoMapper {
+                                       query selectById(id bigint) Todo {
+                                           select id, title, completed
+                                           from tb_todo
+                                           where id = :id;
+                                       }
+                                       
+                                       query selectAll(id bigint) list<Todo> {
+                                           select id, title, completed
+                                           from tb_todo
+                                           where id = :id;
+                                       }
+
+                                       query insertTodo(title Title, completed YesNo) int {
+                                           insert into tb_todo (title, completed, created_at, updated_at)
+                                           values (:title, :completed, now(), now());
+                                       }
+                                   }
+                                   """;
+            FileUtil.WriteAllText(mapperFile, content);
+        }
+
+        // struct.jssp 파일 생성
+        {
+            const string todoFile = "struct.jssp";
+            const string content = """
+                                   struct User {
+                                       var id int;
+                                       var name string;
+                                       var email string;
+                                   }
+
+                                   struct Todo {
+                                       var id int;
+                                       var title string;
+                                       var completed bool;
+                                   }
+                                   """;
+            FileUtil.WriteAllText(todoFile, content);
+        }
+
+        // user_controller.jssp 파일 생성
+        {
+            const string mainFile = "user_controller.jssp";
+            const string content = """
+                                   import 'property.jssp';
+                                   import 'mapper.jssp';
+                                   import 'struct.jssp';
+
+                                   [baseUrl="/api/v1", comment='User API']
+                                   controller UserController {
+                                       [method=post, route='/user', id=100, comment='Add User']
+                                       func addUser(@body user User) User {
+                                           @mapper.UserMapper.insertUser(user.name, user.email);
+                                           return user;
+                                       }
+                                       
+                                       [method=get, route='/user/{id}', comment='Get User by ID']
+                                       func getUser(@path("id") id int) User {
+                                           var vo = @mapper.UserMapper.selectById(id);
+                                           var user = User();
+                                           user.id = vo.id;
+                                           user.name = vo.name;
+                                           user.email = vo.email;
+                                           return user;
+                                       }
+                                   }
+                                   """;
+            FileUtil.WriteAllText(mainFile, content);
+        }
+
+        // todo_controller.jssp 파일 생성
+        {
+            const string mainFile = "todo_controller.jssp";
+            const string content = """
+                                   import 'property.jssp';
+                                   import 'mapper.jssp';
+                                   import 'struct.jssp';
+
+                                   [baseUrl="/api/v1", comment='Todo API']
+                                   controller TodoController {
+                                       [method=post, route='/todo', id=100, comment='Add Todo']
+                                       func addTodo(@body todo Todo) Todo {
+                                           @mapper.TodoMapper.insertTodo(todo.title, todo.completed);
+                                           return todo;
+                                       }
+                                       
+                                       [method=get, route='/todos/{id}', comment='Get Todo List']
+                                       func getTodos(@path("id") id int) list<Todo> {
+                                           var vos = @mapper.TodoMapper.selectAll(id);
+                                           var todos = list<Todo>();
+                                           for(var vo in vos) {
+                                               var todo = Todo();
+                                               todo.id = vo.id;
+                                               todo.title = vo.title;
+                                               todo.completed = vo.completed;
+                                               todos.add(todo);
+                                           }
+                                           return todos;
+                                       }
+                                   }
+                                   """;
+            FileUtil.WriteAllText(mainFile, content);
+        }
+
+        // api.jssp 파일 생성
+        {
+            const string mainFile = "api.jssp";
+            const string content = """
+                                   import 'user_controller.jssp';
+                                   import 'todo_controller.jssp';
+
+                                   api UserApi from @controller.UserController {
+                                     var baseUrl string;
+                                   }
+
+                                   api TodoApi from @controller.TodoController {
+                                     var baseUrl string;
+                                   }
+                                   """;
+            FileUtil.WriteAllText(mainFile, content);
+        }
+
 
         // main.jssp 파일 생성
         {
@@ -242,9 +408,9 @@ public class InitRunner
                                    import 'property.jssp';
                                    import 'api.jssp';
                                    func main() {
-                                       var api = SampleApi();
-                                       api.baseUrl = @property.baseUrl;
-                                       var res = api.hello("World");
+                                       var todoApi = TodoApi();
+                                       todoApi.baseUrl = @property.baseUrl;
+                                       var res = todoApi.getTodos(1);
                                        @console.log(res);
                                    }
                                    """;
