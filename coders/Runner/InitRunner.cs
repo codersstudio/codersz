@@ -46,6 +46,7 @@ public class InitRunner
             ProjectId = "cpp",
             Name = "App",
             Platform = PlatformKey.Cpp,
+            Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Cpp,
             Options = new ProjectOption
@@ -59,6 +60,7 @@ public class InitRunner
             ProjectId = "java",
             Name = "App",
             Platform = PlatformKey.Java,
+            Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Java,
             Options = new ProjectOption
@@ -73,6 +75,7 @@ public class InitRunner
             ProjectId = "csharp",
             Name = "App",
             Platform = PlatformKey.CSharp,
+            Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.CSharp,
             Options = new ProjectOption
@@ -86,6 +89,7 @@ public class InitRunner
             ProjectId = "dart",
             Name = "App",
             Platform = PlatformKey.Dart,
+            Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Dart,
             Options = new ProjectOption
@@ -100,6 +104,7 @@ public class InitRunner
             ProjectId = "javascript",
             Name = "App",
             Platform = PlatformKey.Javascript,
+            Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Javascript,
             Options = new ProjectOption
@@ -114,6 +119,7 @@ public class InitRunner
             ProjectId = "typescript",
             Name = "App",
             Platform = PlatformKey.Typescript,
+            Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Typescript,
             Options = new ProjectOption
@@ -128,6 +134,7 @@ public class InitRunner
             ProjectId = "python",
             Name = "App",
             Platform = PlatformKey.Python,
+            Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Python,
             Options = new ProjectOption
@@ -155,6 +162,7 @@ public class InitRunner
             ProjectId = "springboot",
             Name = "App",
             Platform = PlatformKey.SpringBoot,
+            Dbms = DbmsKey.Mysql,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.SpringBoot,
             Options = new ProjectOption
