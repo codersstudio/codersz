@@ -2,6 +2,7 @@
 using coders.Options;
 using Jssp.Builder;
 using Jssp.Builder.Llm;
+using Jssp.Builder.Platform;
 using JsspCore.Config;
 using Jssp.Parser;
 using Jssp.Parser.Base;
@@ -64,18 +65,6 @@ public class BuildRunner
             }
         }
 
-        var engineValue = string.IsNullOrWhiteSpace(opts.Engine) ? BuildGenerationMode.Llm : opts.Engine.Trim();
-        if (BuildGenerationMode.IsValid(engineValue) == false)
-        {
-            Log.Error("Unknown engine '{EngineValue}'. Use 'llm' or 'internal'.", engineValue);
-            return 1;
-        }
-
-        var usingInternalEngine = BuildGenerationMode.IsInternal(engineValue);
-        var engineLabel = usingInternalEngine ? BuildGenerationMode.Internal : BuildGenerationMode.Llm;
-        Log.Information("Console log level set to {LogLevel}.", consoleLevel);
-        Log.Information("Using {EngineMode} generation engine.", engineLabel);
-
         // Build projects
 
         if (string.IsNullOrEmpty(targetProjectId))
@@ -128,14 +117,7 @@ public class BuildRunner
                 Directory.CreateDirectory(project.OutPath);
             }
 
-            if (usingInternalEngine)
-            {
-                BuildWithInternalEngine(project);
-            }
-            else
-            {
-                BuildWithLlm(_appConfig.LlmOptions, project);
-            }
+            BuildWithLlm(_appConfig.LlmOptions, project);
 
             Log.Information("Build completed: {ProjectName}", project.Name);
         }
@@ -180,47 +162,6 @@ public class BuildRunner
     {
         var keys = PlatformKey.GetPlatformKeys();
         return keys.Contains(platform);
-    }
-
-    private void BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig)
-    {
-        var inputFile = projectConfig.Entry;
-
-        var text = File.ReadAllText(projectConfig.Entry);
-
-        var parserOption = new ParserOption(inputFile, projectConfig.OutPath);
-
-        parserOption.BuiltInPath.Add(PathUtil.Combine(PathUtil.ModulePath, "builtin"));
-
-        var context = new ParserContext
-        {
-            Platform = projectConfig.Platform
-        };
-
-        var symbolContainer = new SymbolContainer();
-
-        var symbolStack = new SymbolStack();
-
-        ImportContext.Instance.Clear();
-
-        var parser = new JsspParser(text, parserOption, context, symbolStack, symbolContainer);
-
-        try
-        {
-            parser.Parse();
-
-            var builder = new LlmBuilder(context, projectConfig);
-
-            var platformGenerator = new LlmPlatformGenerator(context, llmOption, parserOption, projectConfig);
-
-            var projectBuilder = new LlmProjectBuilder(context, llmOption, projectConfig, builder, platformGenerator);
-
-            projectBuilder.Build(null);
-        }
-        catch (Exception e)
-        {
-            Log.Error(e, "Error parsing file '{InputFile}'.", inputFile);
-        }
     }
 
     private void ParseOnly()
@@ -268,15 +209,68 @@ public class BuildRunner
         }
     }
 
+    private void BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig)
+    {
+        var inputFile = projectConfig.Entry;
+
+        var text = File.ReadAllText(projectConfig.Entry);
+
+        var dir = Path.GetDirectoryName(inputFile) ?? Directory.GetCurrentDirectory();
+
+        var parserOption = new ParserOption(inputFile, dir);
+
+#if DEBUG
+        parserOption.BuiltInPath.Add(@"D:\dev\codersz\codersz_builtin");
+#else
+        parserOption.BuiltInPath.Add(PathUtil.Combine(PathUtil.ModulePath, "builtin"));
+#endif
+
+        var context = new ParserContext
+        {
+            Platform = projectConfig.Platform
+        };
+
+        var symbolContainer = new SymbolContainer();
+
+        var symbolStack = new SymbolStack();
+
+        ImportContext.Instance.Clear();
+
+        var parser = new JsspParser(text, parserOption, context, symbolStack, symbolContainer);
+
+        try
+        {
+            parser.Parse();
+
+            var builder = new LlmBuilder(context, projectConfig);
+
+            var platformGenerator = new LlmPlatformGenerator(context, llmOption, parserOption, projectConfig);
+
+            var projectBuilder = new LlmProjectBuilder(context, llmOption, projectConfig, builder, platformGenerator);
+
+            projectBuilder.Build(null);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error parsing file '{InputFile}'.", inputFile);
+        }
+    }
+
     private void BuildWithInternalEngine(ProjectConfig projectConfig)
     {
         var inputFile = projectConfig.Entry;
 
         var text = File.ReadAllText(projectConfig.Entry);
 
-        var parserOption = new ParserOption(inputFile, projectConfig.OutPath);
+        var dir = Path.GetDirectoryName(inputFile) ?? Directory.GetCurrentDirectory();
 
+        var parserOption = new ParserOption(inputFile, dir);
+
+#if DEBUG
+        parserOption.BuiltInPath.Add(@"D:\dev\codersz\codersz_builtin");
+#else
         parserOption.BuiltInPath.Add(PathUtil.Combine(PathUtil.ModulePath, "builtin"));
+#endif
 
         var context = new ParserContext
         {

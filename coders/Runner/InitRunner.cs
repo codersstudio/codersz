@@ -142,7 +142,7 @@ public class InitRunner
             ProjectId = "vuejs",
             Name = "App",
             Platform = PlatformKey.VueJs,
-            Entry = "main_html.jssp",
+            Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.VueJs,
             Options = new ProjectOption
             {
@@ -155,7 +155,7 @@ public class InitRunner
             ProjectId = "springboot",
             Name = "App",
             Platform = PlatformKey.SpringBoot,
-            Entry = "controller.jssp",
+            Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.SpringBoot,
             Options = new ProjectOption
             {
