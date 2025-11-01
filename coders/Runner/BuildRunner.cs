@@ -117,7 +117,7 @@ public class BuildRunner
                 Directory.CreateDirectory(project.OutPath);
             }
 
-            if (opts.Engine == BuildEngine.Builtin)
+            if (opts.Engine == EngineKey.Builtin)
             {
                 BuildWithBuiltIn(project);
             }
