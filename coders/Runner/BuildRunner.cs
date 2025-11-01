@@ -117,7 +117,14 @@ public class BuildRunner
                 Directory.CreateDirectory(project.OutPath);
             }
 
-            BuildWithLlm(_appConfig.LlmOptions, project);
+            if (opts.Engine == BuildEngine.Builtin)
+            {
+                BuildWithBuiltIn(project);
+            }
+            else
+            {
+                BuildWithLlm(_appConfig.LlmOptions, project);
+            }
 
             Log.Information("Build completed: {ProjectName}", project.Name);
         }
@@ -256,7 +263,7 @@ public class BuildRunner
         }
     }
 
-    private void BuildWithInternalEngine(ProjectConfig projectConfig)
+    private void BuildWithBuiltIn(ProjectConfig projectConfig)
     {
         var inputFile = projectConfig.Entry;
 
