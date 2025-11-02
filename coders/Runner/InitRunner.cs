@@ -337,13 +337,13 @@ public class InitRunner
                                    [baseUrl="/api/v1", comment='User API']
                                    controller UserController {
                                        [method=post, route='/user', id=100, comment='Add User']
-                                       func addUser(@body user User) User {
+                                       handler addUser(@body user User) User {
                                            @mapper.UserMapper.insertUser(user.name, user.email);
                                            return user;
                                        }
                                        
                                        [method=get, route='/user/{id}', comment='Get User by ID']
-                                       func getUser(@path("id") id int) User {
+                                       handler getUser(@path("id") id int) User {
                                            var vo = @mapper.UserMapper.selectById(id);
                                            var user = User();
                                            user.id = vo.id;
@@ -367,13 +367,13 @@ public class InitRunner
                                    [baseUrl="/api/v1", comment='Todo API']
                                    controller TodoController {
                                        [method=post, route='/todo', id=100, comment='Add Todo']
-                                       func addTodo(@body todo Todo) Todo {
+                                       handler addTodo(@body todo Todo) Todo {
                                            @mapper.TodoMapper.insertTodo(todo.title, todo.completed);
                                            return todo;
                                        }
                                        
                                        [method=get, route='/todos/{id}', comment='Get Todo List']
-                                       func getTodos(@path("id") id int) list<Todo> {
+                                       handler getTodos(@path("id") id int) list<Todo> {
                                            var vos = @mapper.TodoMapper.selectAll(id);
                                            var todos = list<Todo>();
                                            for(var vo in vos) {
@@ -398,11 +398,9 @@ public class InitRunner
                                    import 'todo_controller.jssp';
 
                                    api UserApi from @controller.UserController {
-                                     var baseUrl string;
                                    }
 
                                    api TodoApi from @controller.TodoController {
-                                     var baseUrl string;
                                    }
                                    """;
             FileUtil.WriteAllText(mainFile, content);
@@ -417,7 +415,7 @@ public class InitRunner
                                    import 'api.jssp';
                                    func main() {
                                        var todoApi = TodoApi();
-                                       todoApi.baseUrl = @property.baseUrl;
+                                       todoApi.setServer("http://localhost:8080");
                                        var res = todoApi.getTodos(1);
                                        @console.log(res);
                                    }
