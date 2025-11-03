@@ -177,8 +177,8 @@ public class InitRunner
                 Plugins =
                 [
                     "id 'java'",
-                    "id 'org.springframework.boot:3.5.5'",
-                    "id 'io.spring.dependency-management:1.1.7'"
+                    "id 'org.springframework.boot' version '3.5.5'",
+                    "id 'io.spring.dependency-management' version '1.1.7'"
                 ],
                 Dependencies =
                 [
@@ -186,6 +186,8 @@ public class InitRunner
                     "implementation 'org.springframework.boot:spring-boot-starter-security'",
                     "implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'",
                     "implementation 'org.springframework.boot:spring-boot-starter-validation'",
+                    "implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'",
+                    "testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'",
                     "implementation 'com.nimbusds:nimbus-jose-jwt:10.5'",
                     "implementation 'org.springframework.boot:spring-boot-starter-log4j2'",
                     "annotationProcessor 'org.projectlombok:lombok'",
