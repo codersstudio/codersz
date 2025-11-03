@@ -81,7 +81,7 @@ public class BuildRunner
                     $"Project with ProjectId '{targetProjectId}' not found in configuration.");
             }
 
-            if (!Check(project))
+            if (!Check(project, opts))
             {
                 throw new InvalidOperationException(
                     $"Project with ProjectId '{targetProjectId}' is not valid.");
@@ -132,7 +132,7 @@ public class BuildRunner
         return 0;
     }
 
-    private bool Check(ProjectConfig projectConfig)
+    private bool Check(ProjectConfig projectConfig, BuildOptions opts)
     {
         if (string.IsNullOrEmpty(projectConfig.Name))
         {
@@ -147,12 +147,20 @@ public class BuildRunner
             return false;
         }
 
-        if (CheckPlatform(platform) == false)
+        if (!CheckPlatform(platform, opts))
         {
             var supported = string.Join(", ", PlatformKey.GetPlatformKeys());
             Log.Error(
                 "Platform '{Platform}' is not supported for project '{ProjectName}'. Supported platforms: {SupportedPlatforms}",
                 platform, projectConfig.Name, supported);
+            return false;
+        }
+
+        if (!CheckPlatformEngine(platform, opts))
+        {
+            Log.Error(
+                "Engine '{Engine}' is not supported for platform '{platform}' in project '{{ProjectName}}'.",
+                opts.Engine, platform, projectConfig.Name);
             return false;
         }
 
@@ -165,10 +173,33 @@ public class BuildRunner
         return true;
     }
 
-    private bool CheckPlatform(string platform)
+    private bool CheckPlatform(string platform, BuildOptions opts)
     {
-        var keys = PlatformKey.GetPlatformKeys();
-        return keys.Contains(platform);
+        var platformInfos = PlatformInfo.GetPlatformInfos();
+        if (!platformInfos.ContainsKey(platform))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool CheckPlatformEngine(string platform, BuildOptions opts)
+    {
+        var platformInfos = PlatformInfo.GetPlatformInfos();
+        if (!platformInfos.ContainsKey(platform))
+        {
+            return false;
+        }
+
+        var platformInfo = platformInfos[platform];
+
+        if (platformInfo.EntineTypes.Contains(opts.Engine))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void ParseOnly()
