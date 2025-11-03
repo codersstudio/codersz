@@ -41,6 +41,7 @@ public class InitRunner
             Projects = []
         };
 
+        // cpp
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "cpp",
@@ -52,6 +53,7 @@ public class InitRunner
             Options = null
         });
 
+        // java
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "java",
@@ -67,6 +69,7 @@ public class InitRunner
             }
         });
 
+        // kotlin
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "kotlin",
@@ -82,6 +85,7 @@ public class InitRunner
             }
         });
 
+        // csharp
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "csharp",
@@ -96,6 +100,7 @@ public class InitRunner
             }
         });
 
+        // dart
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "dart",
@@ -143,6 +148,100 @@ public class InitRunner
             Options = null
         });
 
+        // Django
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "django",
+            Name = "App",
+            Platform = PlatformKey.Django,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.Django,
+            Options = null
+        });
+
+        // Go
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "go",
+            Name = "App",
+            Platform = PlatformKey.Go,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.Go,
+            Options = null
+        });
+
+        // goserver
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "goserver",
+            Name = "App",
+            Platform = PlatformKey.GoServer,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.GoServer,
+            Options = null
+        });
+
+        // Rust
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "rust",
+            Name = "App",
+            Platform = PlatformKey.Rust,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.Rust,
+            Options = null
+        });
+
+        // rustserver
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "rustserver",
+            Name = "App",
+            Platform = PlatformKey.RustServer,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.RustServer,
+            Options = null
+        });
+
+        // reactjs
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "reactjs",
+            Name = "App",
+            Platform = PlatformKey.ReactJs,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.ReactJs,
+            Options = null
+        });
+
+        // svelte
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "svelte",
+            Name = "App",
+            Platform = PlatformKey.SvelteJs,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.SvelteJs,
+            Options = null
+        });
+
+        // flutter
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "flutter",
+            Name = "App",
+            Platform = PlatformKey.Flutter,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.Flutter,
+            Options = null
+        });
+
         // vuejs
         config.Projects.Add(new ProjectConfig
         {
@@ -154,6 +253,7 @@ public class InitRunner
             Options = null
         });
 
+        // springboot
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = "springboot",
