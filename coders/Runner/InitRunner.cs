@@ -49,10 +49,7 @@ public class InitRunner
             Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Cpp,
-            Options = new ProjectOption
-            {
-                Package = "com.example",
-            }
+            Options = null
         });
 
         config.Projects.Add(new ProjectConfig
@@ -63,6 +60,21 @@ public class InitRunner
             Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Java,
+            Options = new ProjectOption
+            {
+                Package = "com.example",
+                MainClass = "App"
+            }
+        });
+
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "kotlin",
+            Name = "App",
+            Platform = PlatformKey.Kotlin,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.Kotlin,
             Options = new ProjectOption
             {
                 Package = "com.example",
@@ -92,10 +104,7 @@ public class InitRunner
             Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Dart,
-            Options = new ProjectOption
-            {
-                Module = "example",
-            }
+            Options = null
         });
 
         // Javascript
@@ -107,10 +116,7 @@ public class InitRunner
             Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Javascript,
-            Options = new ProjectOption
-            {
-                Module = "example",
-            }
+            Options = null
         });
 
         // Typescript
@@ -122,10 +128,7 @@ public class InitRunner
             Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Typescript,
-            Options = new ProjectOption
-            {
-                Module = "example",
-            }
+            Options = null
         });
 
         // Python
@@ -137,10 +140,7 @@ public class InitRunner
             Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.Python,
-            Options = new ProjectOption
-            {
-                Module = "example",
-            }
+            Options = null
         });
 
         // vuejs
@@ -151,10 +151,7 @@ public class InitRunner
             Platform = PlatformKey.VueJs,
             Entry = "main.jssp",
             OutPath = "./out/" + PlatformKey.VueJs,
-            Options = new ProjectOption
-            {
-                UseHistory = true
-            }
+            Options = null
         });
 
         config.Projects.Add(new ProjectConfig
