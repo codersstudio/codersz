@@ -13,8 +13,8 @@ public class BuildOptions
     public string ProjectId { get; set; } = string.Empty;
 
     [Option('e', "engine", Required = false,
-        HelpText = "Select the build engine to use (builtin or llm).", Default = EngineKey.Builtin)]
-    public string Engine { get; set; } = EngineKey.Builtin;
+        HelpText = "Select the build engine to use (llm or builtin).", Default = EngineKey.Llm)]
+    public string Engine { get; set; } = EngineKey.Llm;
 
     [Option('v', HelpText = "Increase console verbosity to Information. Default is Warning.")]
     public bool Verbose { get; set; }
