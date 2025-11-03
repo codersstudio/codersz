@@ -10,6 +10,34 @@ Coders is distributed as a .NET tool via NuGet.org. You can install it globally 
 dotnet tool install -g coders
 ```
 
+## Quick Start
+
+1. **Bootstrap a workspace**
+   ```sh
+   coders init
+   ```
+   This creates `config.yml`, a starter `main.jssp`, and sample support files (`property.jssp`, `schema.jssp`, `mapper.jssp`). Add `--force` to regenerate them.
+
+2. **Inspect the generated configuration**
+   The default `config.yml` includes ready-to-build targets for common platforms:
+   - `cpp`, `java`, `kotlin`, `csharp`
+   - `javascript`, `typescript`, `reactjs`, `vuejs`, `svelte`, `flutter`
+   - `python`, `django`, `go`, `goserver`, `rust`, `rustserver`
+   - `springboot`
+   Adjust `outPath`, `entry`, or `options` per project as needed.
+
+3. **Build a target**
+   ```sh
+   coders build -p vuejs
+   coders build -p springboot -v
+   ```
+   Use `-p|--projectId` to pick a project from `config.yml`. Add `-c|--config` to point at another config file, `-e|--engine llm` to delegate to the LLM builder, and `-v` for verbose logs.
+
+## CLI Reference
+
+- `coders init [-f|--force]` – scaffold `config.yml` and starter JSSP assets. Safe to rerun with `--force` when you need a clean slate.
+- `coders build -p <projectId> [-c <config.yml>] [-e builtin|llm] [-v]` – parse the referenced JSSP entry files and emit platform-specific code into each project's `outPath`. When `llmOptions` is present and `--engine llm` is selected, Coders forwards the build to the configured LLM. Omit `-p` to run a syntax-only parse of the solution entry point.
+
 ---
 
 ## Part 1: Core JSSP Concepts
@@ -104,15 +132,15 @@ import "user_mapper.jssp"
 controller UserController {
 
     // This function becomes a GET endpoint at /api/v1/users/count
-    [method=get, action='count']
-    func getUserCount() int {
+    [method=get, route='count']
+    handler getUserCount() int {
         // Call the mapper function. Coders handles the dependency injection.
         return @mapper.UserMapper.countUsers();
     }
 
     // This function becomes a GET endpoint at /api/v1/users/{email}
-    [method=get, action='{email}']
-    func getUserByEmail(email string) UserVo {
+    [method=get, route='{email}']
+    handler getUserByEmail(email string) UserVo {
         return @mapper.UserMapper.selectUserByEmail(email);
     }
 }
@@ -251,12 +279,13 @@ When you define a platform that Coders does not natively support (like `go` in t
 
 ## Roadmap: The Future of Coders
 
-Coders is a continuously evolving project. The goal is to expand support for a wide range of modern frameworks and platforms from a single JSSP codebase. Future planned enhancements include:
+Coders is evolving quickly. Active work is focused on:
 
-- **Frontend Targets**: Adding support for **Svelte**.
-- **Backend Targets**: Adding support for **Django**, **FastAPI**, **Go**, and **Dart** servers.
+- Broader automation around project scaffolding (environment setup, sample data, and end-to-end demos).
+- Faster feedback loops, including incremental builds and richer diagnostics from the CLI.
+- Additional first-party templates and documentation to cover more real-world stacks.
 
-Stay tuned for more updates as the project grows!
+Stay tuned for release notes as these enhancements land.
 
 ---
 
