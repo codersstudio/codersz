@@ -277,6 +277,18 @@ public class InitRunner
             Options = null
         });
 
+        // swagger
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "swagger",
+            Name = "App",
+            Platform = PlatformKey.Swagger,
+            Dbms = null,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.Swagger,
+            Options = null
+        });
+
         // springboot
         config.Projects.Add(new ProjectConfig
         {
