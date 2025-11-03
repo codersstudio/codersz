@@ -1,6 +1,6 @@
 # Coders: The JSSP Transpiler Manual
 
-**Coders** is a powerful transpiler that converts code written in a single, unified language called **JSSP (JavaScript Style Programming)** into native code for various platforms. This manual provides a detailed guide on how to use Coders for full-stack development, including a Spring Boot backend and a Vue.js frontend.
+**Coders** is a powerful transpiler that converts code written in a single, unified language called **JSSP** into native code for various platforms. This manual provides a detailed guide on how to use Coders for full-stack development, including a Spring Boot backend and a Vue.js frontend.
 
 ## Installation
 
@@ -37,6 +37,8 @@ dotnet tool install -g coders
 
 - `coders init [-f|--force]` – scaffold `config.yml` and starter JSSP assets. Safe to rerun with `--force` when you need a clean slate.
 - `coders build -p <projectId> [-c <config.yml>] [-e builtin|llm] [-v]` – parse the referenced JSSP entry files and emit platform-specific code into each project's `outPath`. When `llmOptions` is present and `--engine llm` is selected, Coders forwards the build to the configured LLM. Omit `-p` to run a syntax-only parse of the solution entry point.
+
+The `--engine` flag currently supports two modes. `builtin` relies on Coders' native parser and code generators, so only a subset of platforms is implemented today (with more on the roadmap). `llm` delegates translation to the configured LLM backend for broader language coverage.
 
 ---
 
@@ -255,6 +257,8 @@ This provides a seamless, type-safe bridge between your frontend and backend, as
 
 Coders can transcend its built-in transpilers by integrating with a Large Language Model (LLM). This allows you to translate your JSSP code into virtually any programming language supported by the LLM.
 
+In production we operate Coders with two primary LLM backends: the Ollama-served `gpt-oss:20b` model and OpenAI's ChatGPT `gpt-4o`. These defaults ensure broad platform coverage while keeping a local fallback available.
+
 To enable this feature, add an `llmOptions` block to your `config.yml` file.
 
 ```yaml
@@ -324,3 +328,7 @@ projects:
 ```
 
 By running `coders.exe`, you can transpile your entire full-stack application from a single, consistent JSSP codebase.
+
+---
+
+For a Korean translation of this manual, read `README.ko.md`.
