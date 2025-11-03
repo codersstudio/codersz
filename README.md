@@ -21,7 +21,7 @@ dotnet tool install -g coders
 2. **Inspect the generated configuration**
    The default `config.yml` includes ready-to-build targets for common platforms:
    - `cpp`, `java`, `kotlin`, `csharp`
-   - `javascript`, `typescript`, `reactjs`, `vuejs`, `svelte`, `flutter`
+   - `javascript`, `typescript`, `nodejs`, `nodets`, `reactjs`, `vuejs`, `svelte`, `flutter`
    - `python`, `django`, `go`, `goserver`, `rust`, `rustserver`
    - `springboot`
    Adjust `outPath`, `entry`, or `options` per project as needed.

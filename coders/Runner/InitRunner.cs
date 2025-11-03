@@ -136,6 +136,30 @@ public class InitRunner
             Options = null
         });
 
+        // nodejs
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "nodejs",
+            Name = "App",
+            Platform = PlatformKey.NodeJs,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.NodeJs,
+            Options = null
+        });
+
+        // nodets
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = "nodets",
+            Name = "App",
+            Platform = PlatformKey.NodeTs,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.NodeTs,
+            Options = null
+        });
+
         // Python
         config.Projects.Add(new ProjectConfig
         {

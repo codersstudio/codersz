@@ -159,7 +159,7 @@ public class BuildRunner
         if (!CheckPlatformEngine(platform, opts))
         {
             Log.Error(
-                "Engine '{Engine}' is not supported for platform '{platform}' in project '{{ProjectName}}'.",
+                "Engine '{Engine}' is not supported for platform '{platform}' in project '{ProjectName}'.",
                 opts.Engine, platform, projectConfig.Name);
             return false;
         }
