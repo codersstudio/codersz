@@ -238,7 +238,7 @@ public class InitRunner
             ProjectId = "reactjs",
             Name = "App",
             Platform = PlatformKey.ReactJs,
-            Entry = "main.jssp",
+            Entry = "pages.jssp",
             OutPath = "./out/" + PlatformKey.ReactJs,
             Options = null
         });
@@ -249,7 +249,7 @@ public class InitRunner
             ProjectId = "svelte",
             Name = "App",
             Platform = PlatformKey.SvelteJs,
-            Entry = "main.jssp",
+            Entry = "pages.jssp",
             OutPath = "./out/" + PlatformKey.SvelteJs,
             Options = null
         });
@@ -272,7 +272,7 @@ public class InitRunner
             ProjectId = "vuejs",
             Name = "App",
             Platform = PlatformKey.VueJs,
-            Entry = "main.jssp",
+            Entry = "pages.jssp",
             OutPath = "./out/" + PlatformKey.VueJs,
             Options = null
         });
