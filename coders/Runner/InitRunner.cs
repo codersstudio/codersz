@@ -540,6 +540,36 @@ public class InitRunner
                                    """;
             FileUtil.WriteAllText(mainFile, content);
         }
+        
+        // pages.jssp 파일 생성
+        {
+            const string mainFile = "pages.jssp";
+            const string content = """
+                                   
+                                   [route='/', redirect='/todo']
+                                   html TodoLayout {
+                                        <template>
+                                            <div>
+                                                <h1>Todo Application</h1>
+                                                <main>
+                                                    <router-view />
+                                                </main>
+                                            </div>
+                                        </template>
+                                   }
+
+                                   [route='/todo', parent='TodoLayout']
+                                   html TodoPage {
+                                       <template>
+                                           <div>
+                                               <h2>Welcome to the Todo Application</h2>
+                                               <p>This is the home page.</p>
+                                           </div>
+                                       </template>
+                                   }
+                                   """;
+            FileUtil.WriteAllText(mainFile, content);
+        }
 
 
         // main.jssp 파일 생성
