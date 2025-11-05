@@ -1,10 +1,10 @@
 # Coders CLI
 
-Coders is the command-line entry point to the Coders JSSP toolchain. The CLI is implemented in C# (.NET 9) and wraps the parser, builders, and platform generators published in the `codersz_engine` projects. It provides a thin but opinionated workflow for bootstrapping a workspace, downloading the required runtime assets, and compiling `.jssp` source into platform-specific projects.
+Coders is a powerful transpiler that converts code written in a single, unified language called JSSP into native code for various platforms. This manual provides a detailed guide on how to use Coders for full-stack development, including a Spring Boot backend and a Vue.js frontend.
 
 ## Prerequisites
-- .NET SDK 9.0 or later (the tool targets `net9.0`; see `coders/coders.csproj`)
-- Git (LibGit2Sharp clones companion repositories during initialization)
+- .NET SDK 9.0 or later (the tool targets `net9.0`)
+- Git (used to fetch bundled templates and runtime assets during initialization)
 
 ## Installation
 
@@ -16,20 +16,12 @@ dotnet tool install -g coders
 
 ### Initialize a workspace
 
-Run `coders init` to scaffold a new Coders workspace (implementation in `coders/Runner/InitRunner.cs`).
+Run `coders init` to scaffold a new Coders workspace. The command creates a default `config.yml`, seed `.jssp` scripts for controllers, schemas, and properties, and downloads the templates required by the built-in generators.
 
-- Without `--force`, the command exits early when `config.yml` is already present.
-- The tool lazily clones the runtime repositories used by the builders:
-  - `https://github.com/codersstudio/codersz_builtin.git` → `<tool>/builtin`
-  - `https://github.com/codersstudio/codersz_template.git` → `<tool>/template`
-- The following starter files are written to the current directory:
-  - `config.yml` (Coders configuration)
-  - `property.jssp`, `schema.jssp`, `mapper.jssp`, `struct.jssp`
-  - `user_controller.jssp`, `todo_controller.jssp`, `api.jssp`
-  - `main.jssp`
-- Use `--force` to overwrite the existing files with fresh templates.
+- Without `--force`, initialization exits early when `config.yml` already exists.
+- Use `coders init --force` to overwrite the existing files with fresh templates.
 
-The generated `config.yml` includes ready-made projects for the supported platforms surfaced by `JsspCore.Platform.PlatformKey`. A shortened example looks like:
+A condensed configuration produced by the initializer looks like:
 
 ```yaml
 entry: main.jssp
@@ -82,25 +74,20 @@ projects:
 # … additional platforms omitted for brevity
 ```
 
-Each project entry maps directly to the `ProjectConfig` class and controls the `platform`, `entry`, `outPath`, and optional builder-specific `options`.
+Each project entry defines a target platform, the entry script, an output directory, and optional platform-specific settings.
 
 ### Build sources
 
-Use `coders build` to parse your `.jssp` files and emit code for a target project (see `coders/Runner/BuildRunner.cs`).
+Use `coders build` to parse your `.jssp` files and emit code for a configured project.
 
 Key options:
 
 - `-p|--projectId <id>`: Selects the project from `config.yml`. When omitted the command performs a parse-only validation.
-- `-c|--config <path>`: Uses an alternate configuration file (defaults to `config.yml`).
-- `-e|--engine <llm|builtin>`: Chooses the generator engine. `llm` is the default (`EngineKey.Llm`); `builtin` executes the compiled builders.
-- `-v`: Raises console verbosity from `Warning` to `Information`. All runs also append to `log.txt` via Serilog.
+- `-c|--config <path>`: Uses an alternate configuration file (defaults to `config.yml` in the working directory).
+- `-e|--engine <llm|builtin>`: Chooses the generator engine. `llm` orchestrates code generation through a language model; `builtin` runs entirely offline using the bundled assets.
+- `-v`: Raises console verbosity from warnings to informational output. All runs append details to `log.txt` for diagnostics.
 
-The runner verifies that the requested platform is supported by `JsspPlatform.Platform.Base.PlatformInfo`, ensures the project `entry` file exists, prepares the output directory, and then dispatches to either the LLM-driven or built-in builder.
-
-#### Engines
-
-- `llm`: Requires `llmOptions` in your configuration. The CLI constructs `LlmBuilder`, `LlmPlatformGenerator`, and `LlmProjectBuilder` instances to delegate code generation.
-- `builtin`: Uses `BuilderFactory`, `PlatformGeneratorFactory`, and `ProjectBuilderFactory` for offline generation with the assets located in the `builtin` repository.
+The build process validates the selected project, prepares the output directory, and then produces platform artifacts with the chosen engine.
 
 ### Sample workflow
 
@@ -109,43 +96,165 @@ coders init
 coders build -p springboot --engine builtin -v
 ```
 
-The sequence above boots a fresh workspace, validates the starter `main.jssp`, and writes the generated Spring Boot project into `./out/springboot`.
+The sequence above creates a fresh workspace, validates the starter scripts, and generates a Spring Boot project in `./out/springboot`.
 
 ## Configuration notes
 
-`CodersConfig` (from `codersz_engine/JsspCore/Config`) supports additional sections such as `llmOptions` and database metadata. You can edit `config.yml` to add, remove, or customize projects. Every project entry should include:
+`config.yml` is the control center for the CLI. You can edit it to add, remove, or customize projects. Every entry should include:
 
-- `projectId`: Command-line identifier passed to `coders build -p`
-- `platform`: One of the keys exposed by `PlatformKey`
+- `projectId`: Identifier passed to `coders build -p`
+- `platform`: The target platform key (for example `java`, `vuejs`, `springboot`, `cpp`, `csharp`, and so on)
 - `entry`: Path to the root `.jssp` file
 - `outPath`: Destination directory for generated artifacts
-- `options`: Platform-specific overrides (`package`, `languageVersion`, dependencies, etc.)
-
-## Repository layout
-
-- `Program.cs`: CLI entry point wiring up `CommandLineParser`.
-- `Options/`: Definitions for `init` and `build` verb options.
-- `Runner/`: Execution logic; `BuildRunner` orchestrates parsing/building, `InitRunner` writes starter assets.
-- `Repo/`: Lazy clone helpers for the `builtin` and `template` repositories (LibGit2Sharp).
-- `Tool/Detection/`: Build tool detectors used by future commands (currently unused, but ready to surface in new verbs).
-- `coders.csproj`: .NET tool packaging metadata (version, NuGet configuration, README packaging).
-
-## Related repositories
-
-This CLI depends on the following companion projects:
-
-- [`codersstudio/codersz_engine`](https://github.com/codersstudio/codersz_engine): Parser, builders, and platform integrations consumed via project references.
-- [`codersstudio/codersz_builtin`](https://github.com/codersstudio/codersz_builtin): Generated scaffolding and runtime artifacts for the built-in engine.
-- [`codersstudio/codersz_template`](https://github.com/codersstudio/codersz_template): Starter project templates copied into new workspaces.
-
-## Development
-
-Clone the repository, install the .NET SDK 9+, and run the solution locally:
-
-```sh
-dotnet build coders.sln
-dotnet run --project coders/coders.csproj -- init --force
-dotnet run --project coders/coders.csproj -- build -p vuejs --engine builtin
-```
+- `options`: Platform-specific overrides such as package names, namespaces, language versions, or extra dependencies.
 
 `log.txt` in the working directory captures diagnostic output for troubleshooting. See `LICENSE.md` for licensing details.
+
+- Run `coders init` to bootstrap a workspace with starter `.jssp` sources and configuration. Add `--force` to regenerate the scaffolding if files already exist.
+- Run `coders build -p <projectId>` to compile scripts for a configured platform. Use `--config <path>` to point at a different configuration file, `--engine builtin` to switch away from the default LLM engine, and `-v` for verbose logging.
+- Typical workflow:
+
+  ```sh
+  coders init
+  coders build -p springboot --engine builtin -v
+  ```
+
+  The build command validates the selected project, prepares the output directory, and emits the artifacts defined in the configuration.
+
+## Syntax highlights
+
+The Coders language blends application logic, HTTP endpoints, and persistence definitions in a single `.jssp` layer. The following snippets illustrate common constructs supported by the CLI.
+
+- **Core scripting** supports expressions, conditionals, loops, try/catch, generics, and dynamic typing. Types can be declared inline and converted as needed:
+
+  ```jssp
+  func main() {
+    var numbers list<int32> = [1, 2, 3];
+    for (var item in numbers) {
+      if (item % 2 == 0) {
+        Console.log(String.valueOf(item));
+      }
+    }
+  }
+
+  var dynamicValue dynamic = 10;
+  dynamicValue = "now a string";
+  ```
+
+- **HTTP controllers** describe routes, verbs, parameters, and bindings. Decorators expose metadata for generated clients and servers:
+
+  ```jssp
+  [baseUrl='/api/v1/sample']
+  controller SampleController {
+    [method=get, route='users/{id}', contentType='application/json']
+    handler getUser(@path("id") id string, @param includeDetails bool?) UserResponse {
+      return UserResponse();
+    }
+  }
+  ```
+
+  Reusable API clients can wrap controllers:
+
+  ```jssp
+  api SampleApi from @controller.SampleController {
+    var server string;
+  }
+
+  func main(args list<string>) {
+    var api = @api.SampleApi();
+    api.server = "http://localhost:8080";
+    api.getUser("123", true);
+  }
+  ```
+
+- **Data modelling** links tables, entities, domains, and mappers for relational workflows:
+
+  ```jssp
+  domain Email varchar(320);
+
+  table user_profile {
+    user_id bigint auto;
+    email Email unique;
+    key(user_id);
+  }
+
+  entity UserProfile {
+    var userId bigint;
+    var email Email;
+  }
+
+  mapper UserProfile {
+    query selectByEmail(email Email) UserProfile {
+      select user_id, email from user_profile
+      where email = :email;
+    }
+  }
+  ```
+
+  Schema declarations also provide index and foreign key helpers:
+
+  ```jssp
+  table user_role {
+    user_id bigint;
+    role_id bigint;
+    key(user_id, role_id);
+    link(user_id) to user(user_id);
+  }
+  ```
+
+- **Presentation helpers** cover localization, style composition, and property bundles:
+
+  ```jssp
+  define message [locale='en', default=true] {
+    welcome 'Hello {name}!';
+  }
+
+  define css {
+    text.primary {
+      text-gray-800 dark:text-gray-100;
+    }
+  }
+
+  property dev {
+    api.url = "https://dev.example.com";
+  }
+  ```
+
+  Invoke resources at runtime with `@message`, `@css`, and `@property` macros.
+
+- **HTML components** let you define Vue-style templates with optional script logic while reusing helpers such as `@css`:
+
+  ```jssp
+  define css {
+    text.primary {
+      text-gray-800 dark:text-gray-100;
+    }
+  }
+
+  html SampleCard {
+    var title = "Hello, World!";
+    var items = [1, 2, 3];
+
+    <template>
+      <div class="@css.text.primary">
+        <h1>{{ title }}</h1>
+        <p v-if="items.length">Total: {{ items.length }}</p>
+      </div>
+    </template>
+  }
+  ```
+
+  Generated markup normalizes the utility classes (for example `text-gray-800`) and provides a scoped style block when you omit custom CSS.
+
+- **Namespacing and interfaces** mirror platform constructs and allow method-style access:
+
+  ```jssp
+  namespace http {
+    interface Header {
+      func get(key string) string;
+    }
+  }
+
+  var headers = http.Header();
+  headers.get("Accept");
+  ```
