@@ -9,7 +9,7 @@ public class BuiltinRepo
     public static BuiltinRepo Instance { get; } = new();
 
     private readonly string _targetPath = Path.Combine(PathUtil.ModulePath, "builtin");
-    private readonly string _repoUrl = "https://github.com/codersstudio/codersz_builtin.git";
+    private readonly string _repoUrl = "https://github.com/codersstudio/coders_builtin.git";
 
     private BuiltinRepo()
     {

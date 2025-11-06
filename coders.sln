@@ -2,13 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "coders", "coders\coders.csproj", "{1CB8C81E-AC90-4C4D-8837-C65B39B51A04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspParser", "..\codersz_engine\JsspParser\JsspParser.csproj", "{997FE819-DD1B-4A39-BEF3-88DF663AC113}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspParser", "..\coders_engine\JsspParser\JsspParser.csproj", "{997FE819-DD1B-4A39-BEF3-88DF663AC113}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspPlatform", "..\codersz_engine\JsspPlatform\JsspPlatform.csproj", "{D6FD1A52-1E43-4658-84B3-8054A5E755B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspPlatform", "..\coders_engine\JsspPlatform\JsspPlatform.csproj", "{D6FD1A52-1E43-4658-84B3-8054A5E755B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspLlm", "..\codersz_engine\JsspLlm\JsspLlm.csproj", "{7450DD76-A135-4AF3-8202-95F36DCB11BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspLlm", "..\coders_engine\JsspLlm\JsspLlm.csproj", "{7450DD76-A135-4AF3-8202-95F36DCB11BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspCore", "..\codersz_engine\JsspCore\JsspCore.csproj", "{AD6ABA9D-CD90-472B-ACC6-6A251C989BBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsspCore", "..\coders_engine\JsspCore\JsspCore.csproj", "{AD6ABA9D-CD90-472B-ACC6-6A251C989BBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

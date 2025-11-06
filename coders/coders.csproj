@@ -8,21 +8,26 @@
         <Nullable>enable</Nullable>
         <InvariantGlobalization>false</InvariantGlobalization>
         <PackAsTool>true</PackAsTool>
-        <Version>3.0.6</Version>
-        <AssemblyVersion>3.0.6</AssemblyVersion>
-        <FileVersion>3.0.6</FileVersion>
+        <Version>0.5.1</Version>
+        <AssemblyVersion>0.5.1</AssemblyVersion>
+        <FileVersion>0.5.1</FileVersion>
 
         <!-- NuGet Package Metadata -->
         <PackageId>coders</PackageId>
-        <Title>coders</Title>
-        <Authors>coders</Authors>
-        <Description>A command-line tool for developers.</Description>
-        <Copyright>Copyright (c) 2024 coders</Copyright>
-        <PackageTags>cli;developer-tools;coders</PackageTags>
+        <Title>coders CLI</Title>
+        <Authors>Coders Studio</Authors>
+        <Company>Coders Studio</Company>
+        <Product>coders</Product>
+        <Description>coders is a CLI that orchestrates repositories, templates, and runners for streamlined developer workflows.</Description>
+        <Copyright>Copyright (c) 2024 Coders Studio</Copyright>
+        <PackageTags>cli;developer-tools;automation;coders</PackageTags>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-        <PackageProjectUrl>https://github.com/codersstudio/codersz.git</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/codersstudio/codersz.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/codersstudio/coders</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/codersstudio/coders</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
+        <RepositoryBranch>main</RepositoryBranch>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageReleaseNotes>Release 0.5.1: aligns the coders CLI versioning before the next NuGet push.</PackageReleaseNotes>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(PackAsTool)'=='true'">
@@ -62,8 +67,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\codersz_engine\JsspParser\JsspParser.csproj" />
-      <ProjectReference Include="..\..\codersz_engine\JsspPlatform\JsspPlatform.csproj" />
+      <ProjectReference Include="..\..\coders_engine\JsspParser\JsspParser.csproj" />
+      <ProjectReference Include="..\..\coders_engine\JsspPlatform\JsspPlatform.csproj" />
     </ItemGroup>
 
 </Project>

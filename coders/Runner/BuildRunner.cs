@@ -230,7 +230,7 @@ public class BuildRunner
         var parserOption = new ParserOption(inputFile, currentDir);
 
 #if DEBUG
-        parserOption.BuiltInPath.Add(@"D:\dev\codersz\codersz_builtin");
+        parserOption.BuiltInPath.Add(@"D:\dev\coders\coders_builtin");
 #else
         parserOption.BuiltInPath.Add(PathUtil.Combine(PathUtil.ModulePath, "builtin"));
 #endif
@@ -258,7 +258,7 @@ public class BuildRunner
         var parserOption = new ParserOption(inputFile, dir);
 
 #if DEBUG
-        parserOption.BuiltInPath.Add(@"D:\dev\codersz\codersz_builtin");
+        parserOption.BuiltInPath.Add(@"D:\dev\coders\coders_builtin");
 #else
         parserOption.BuiltInPath.Add(PathUtil.Combine(PathUtil.ModulePath, "builtin"));
 #endif
@@ -305,7 +305,7 @@ public class BuildRunner
         var parserOption = new ParserOption(inputFile, dir);
 
 #if DEBUG
-        parserOption.BuiltInPath.Add(@"D:\dev\codersz\codersz_builtin");
+        parserOption.BuiltInPath.Add(@"D:\dev\coders\coders_builtin");
 #else
         parserOption.BuiltInPath.Add(PathUtil.Combine(PathUtil.ModulePath, "builtin"));
 #endif

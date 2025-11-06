@@ -4,7 +4,7 @@ if not defined NUGET_API_KEY (
     exit /b 1
 )
 
-set VERSION=3.0.6
+set VERSION=0.5.1
 set SOURCE=https://api.nuget.org/v3/index.json
 
 set PROJ=coders\coders.csproj
@@ -22,6 +22,6 @@ REM Pack the project
 dotnet pack %PROJ% -c Release -o %OUTPUT_DIR%
 
 REM Push the package
-dotnet nuget push "%OUTPUT_DIR%\%PKG_NAME%.%VERSION%.nupkg" --api-key %NUGET_API_KEY%
+dotnet nuget push "%OUTPUT_DIR%\%PKG_NAME%.%VERSION%.nupkg" --api-key %NUGET_API_KEY% --source %SOURCE%
 
 echo "Publishing complete."

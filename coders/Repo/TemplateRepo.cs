@@ -8,7 +8,7 @@ public class TemplateRepo
     public static TemplateRepo Instance { get; } = new();
 
     private readonly string _targetPath = Path.Combine(PathUtil.ModulePath, "template");
-    private readonly string _repoUrl = "https://github.com/codersstudio/codersz_template.git";
+    private readonly string _repoUrl = "https://github.com/codersstudio/coders_template.git";
 
     private TemplateRepo()
     {
