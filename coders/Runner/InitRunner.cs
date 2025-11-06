@@ -44,7 +44,7 @@ public class InitRunner
         // cpp
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "cpp",
+            ProjectId = PlatformKey.Cpp,
             Name = "App",
             Platform = PlatformKey.Cpp,
             Dbms = DbmsKey.Sqlite,
@@ -53,10 +53,22 @@ public class InitRunner
             Options = null
         });
 
+        // cppserver
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = PlatformKey.CppServer,
+            Name = "App",
+            Platform = PlatformKey.CppServer,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.CppServer,
+            Options = null
+        });
+
         // java
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "java",
+            ProjectId = PlatformKey.Java,
             Name = "App",
             Platform = PlatformKey.Java,
             Dbms = DbmsKey.Sqlite,
@@ -69,10 +81,26 @@ public class InitRunner
             }
         });
 
+        // javaserver
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = PlatformKey.JavaServer,
+            Name = "App",
+            Platform = PlatformKey.JavaServer,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.JavaServer,
+            Options = new ProjectOption
+            {
+                Package = "com.example",
+                MainClass = "App"
+            }
+        });
+
         // kotlin
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "kotlin",
+            ProjectId = PlatformKey.Kotlin,
             Name = "App",
             Platform = PlatformKey.Kotlin,
             Dbms = DbmsKey.Sqlite,
@@ -85,15 +113,46 @@ public class InitRunner
             }
         });
 
-        // csharp
+        // kotlinserver
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "csharp",
+            ProjectId = PlatformKey.KotlinServer,
             Name = "App",
-            Platform = PlatformKey.CSharp,
+            Platform = PlatformKey.KotlinServer,
             Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
-            OutPath = "./out/" + PlatformKey.CSharp,
+            OutPath = "./out/" + PlatformKey.KotlinServer,
+            Options = new ProjectOption
+            {
+                Package = "com.example",
+                MainClass = "App"
+            }
+        });
+
+        // dotnet
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = PlatformKey.Dotnet,
+            Name = "App",
+            Platform = PlatformKey.Dotnet,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.Dotnet,
+            Options = new ProjectOption
+            {
+                Namespace = "Example",
+            }
+        });
+
+        // dotnetserver
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = PlatformKey.DotnetServer,
+            Name = "App",
+            Platform = PlatformKey.DotnetServer,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.DotnetServer,
             Options = new ProjectOption
             {
                 Namespace = "Example",
@@ -103,7 +162,7 @@ public class InitRunner
         // dart
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "dart",
+            ProjectId = PlatformKey.Dart,
             Name = "App",
             Platform = PlatformKey.Dart,
             Dbms = DbmsKey.Sqlite,
@@ -112,34 +171,22 @@ public class InitRunner
             Options = null
         });
 
-        // Javascript
+        // dartserver
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "javascript",
+            ProjectId = PlatformKey.DartServer,
             Name = "App",
-            Platform = PlatformKey.Javascript,
+            Platform = PlatformKey.DartServer,
             Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
-            OutPath = "./out/" + PlatformKey.Javascript,
-            Options = null
-        });
-
-        // Typescript
-        config.Projects.Add(new ProjectConfig
-        {
-            ProjectId = "typescript",
-            Name = "App",
-            Platform = PlatformKey.Typescript,
-            Dbms = DbmsKey.Sqlite,
-            Entry = "main.jssp",
-            OutPath = "./out/" + PlatformKey.Typescript,
+            OutPath = "./out/" + PlatformKey.DartServer,
             Options = null
         });
 
         // nodejs
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "nodejs",
+            ProjectId = PlatformKey.NodeJs,
             Name = "App",
             Platform = PlatformKey.NodeJs,
             Dbms = DbmsKey.Sqlite,
@@ -151,7 +198,7 @@ public class InitRunner
         // nodets
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "nodets",
+            ProjectId = PlatformKey.NodeTs,
             Name = "App",
             Platform = PlatformKey.NodeTs,
             Dbms = DbmsKey.Sqlite,
@@ -163,7 +210,7 @@ public class InitRunner
         // Python
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "python",
+            ProjectId = PlatformKey.Python,
             Name = "App",
             Platform = PlatformKey.Python,
             Dbms = DbmsKey.Sqlite,
@@ -172,10 +219,22 @@ public class InitRunner
             Options = null
         });
 
+        // Python server
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = PlatformKey.PythonServer,
+            Name = "App",
+            Platform = PlatformKey.PythonServer,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.PythonServer,
+            Options = null
+        });
+
         // Django
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "django",
+            ProjectId = PlatformKey.Django,
             Name = "App",
             Platform = PlatformKey.Django,
             Dbms = DbmsKey.Sqlite,
@@ -187,7 +246,7 @@ public class InitRunner
         // Go
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "go",
+            ProjectId = PlatformKey.Go,
             Name = "App",
             Platform = PlatformKey.Go,
             Dbms = DbmsKey.Sqlite,
@@ -199,7 +258,7 @@ public class InitRunner
         // goserver
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "goserver",
+            ProjectId = PlatformKey.GoServer,
             Name = "App",
             Platform = PlatformKey.GoServer,
             Dbms = DbmsKey.Sqlite,
@@ -211,7 +270,7 @@ public class InitRunner
         // Rust
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "rust",
+            ProjectId = PlatformKey.Rust,
             Name = "App",
             Platform = PlatformKey.Rust,
             Dbms = DbmsKey.Sqlite,
@@ -223,7 +282,7 @@ public class InitRunner
         // rustserver
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "rustserver",
+            ProjectId = PlatformKey.RustServer,
             Name = "App",
             Platform = PlatformKey.RustServer,
             Dbms = DbmsKey.Sqlite,
@@ -235,7 +294,7 @@ public class InitRunner
         // reactjs
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "reactjs",
+            ProjectId = PlatformKey.ReactJs,
             Name = "App",
             Platform = PlatformKey.ReactJs,
             Entry = "pages.jssp",
@@ -246,7 +305,7 @@ public class InitRunner
         // svelte
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "svelte",
+            ProjectId = PlatformKey.SvelteJs,
             Name = "App",
             Platform = PlatformKey.SvelteJs,
             Entry = "pages.jssp",
@@ -254,10 +313,21 @@ public class InitRunner
             Options = null
         });
 
+        // vuejs
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = PlatformKey.VueJs,
+            Name = "App",
+            Platform = PlatformKey.VueJs,
+            Entry = "pages.jssp",
+            OutPath = "./out/" + PlatformKey.VueJs,
+            Options = null
+        });
+
         // flutter
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "flutter",
+            ProjectId = PlatformKey.Flutter,
             Name = "App",
             Platform = PlatformKey.Flutter,
             Dbms = DbmsKey.Sqlite,
@@ -266,21 +336,10 @@ public class InitRunner
             Options = null
         });
 
-        // vuejs
-        config.Projects.Add(new ProjectConfig
-        {
-            ProjectId = "vuejs",
-            Name = "App",
-            Platform = PlatformKey.VueJs,
-            Entry = "pages.jssp",
-            OutPath = "./out/" + PlatformKey.VueJs,
-            Options = null
-        });
-
         // swagger
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "swagger",
+            ProjectId = PlatformKey.Swagger,
             Name = "App",
             Platform = PlatformKey.Swagger,
             Dbms = null,
@@ -289,10 +348,22 @@ public class InitRunner
             Options = null
         });
 
+        // fastapi
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = PlatformKey.FastApi,
+            Name = "App",
+            Platform = PlatformKey.FastApi,
+            Dbms = DbmsKey.Sqlite,
+            Entry = "main.jssp",
+            OutPath = "./out/" + PlatformKey.FastApi,
+            Options = null
+        });
+
         // springboot
         config.Projects.Add(new ProjectConfig
         {
-            ProjectId = "springboot",
+            ProjectId = PlatformKey.SpringBoot,
             Name = "App",
             Platform = PlatformKey.SpringBoot,
             Dbms = DbmsKey.Mysql,
@@ -540,12 +611,12 @@ public class InitRunner
                                    """;
             FileUtil.WriteAllText(mainFile, content);
         }
-        
+
         // pages.jssp 파일 생성
         {
             const string mainFile = "pages.jssp";
             const string content = """
-                                   
+
                                    [route='/', redirect='/todo']
                                    html TodoLayout {
                                         <template>

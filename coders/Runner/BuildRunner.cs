@@ -149,7 +149,8 @@ public class BuildRunner
 
         if (!CheckPlatform(platform, opts))
         {
-            var supported = string.Join(", ", PlatformKey.GetPlatformKeys());
+            var infos = PlatformInfo.GetPlatformInfos();
+            var supported = string.Join(", ", infos.Keys);
             Log.Error(
                 "Platform '{Platform}' is not supported for project '{ProjectName}'. Supported platforms: {SupportedPlatforms}",
                 platform, projectConfig.Name, supported);
