@@ -8,9 +8,9 @@
         <Nullable>enable</Nullable>
         <InvariantGlobalization>false</InvariantGlobalization>
         <PackAsTool>true</PackAsTool>
-        <Version>0.5.1</Version>
-        <AssemblyVersion>0.5.1</AssemblyVersion>
-        <FileVersion>0.5.1</FileVersion>
+        <Version>0.5.2</Version>
+        <AssemblyVersion>0.5.2</AssemblyVersion>
+        <FileVersion>0.5.2</FileVersion>
 
         <!-- NuGet Package Metadata -->
         <PackageId>coders</PackageId>
@@ -27,7 +27,7 @@
         <RepositoryType>git</RepositoryType>
         <RepositoryBranch>main</RepositoryBranch>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <PackageReleaseNotes>Release 0.5.1: aligns the coders CLI versioning before the next NuGet push.</PackageReleaseNotes>
+        <PackageReleaseNotes>Release 0.5.2: adds the new CLI verb options, improves build/publish flows, and refreshes build tool detectors.</PackageReleaseNotes>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(PackAsTool)'=='true'">
