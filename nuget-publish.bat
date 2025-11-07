@@ -4,13 +4,18 @@ if not defined NUGET_API_KEY (
     exit /b 1
 )
 
-set VERSION=0.5.2
 set SOURCE=https://api.nuget.org/v3/index.json
 
 set PROJ=coders\coders.csproj
 set PKG_NAME=coders
 
 set OUTPUT_DIR=nupkg
+
+for /f "usebackq delims=" %%v in (`dotnet msbuild %PROJ% -nologo -getProperty:Version`) do set VERSION=%%v
+if "%VERSION%"=="" (
+    echo "Error: failed to resolve Version from %PROJ%."
+    exit /b 1
+)
 
 REM Clean up previous packages
 if exist %OUTPUT_DIR% (
