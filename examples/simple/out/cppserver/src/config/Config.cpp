@@ -1,15 +1,19 @@
-#include "Config.h"
+#include "Config.hpp"
 #include <yaml-cpp/yaml.h>
-#include <spdlog/spdlog.h>
+#include <fstream>
+#include <stdexcept>
+
+namespace App::config {
 
 Config Config::load() {
     Config cfg;
-    try {
-        auto node = YAML::LoadFile("src/config/application.yml");
-        cfg._port = node["port"].as<int>();
-    } catch (const std::exception &e) {
-        spdlog::error("Failed to load config: {}", e.what());
-        cfg._port = 8080;
-    }
+    std::string env = std::getenv("APP_ENV") ? std::getenv("APP_ENV") : "default";
+    std::string file = env == "dev" ? "config/application-dev.yml" :
+                       env == "prod" ? "config/application-prod.yml" :
+                       "config/application.yml";
+    YAML::Node node = YAML::LoadFile(file);
+    cfg.baseUrl = node["baseUrl"].as<std::string>();
     return cfg;
 }
+
+} // namespace App::config

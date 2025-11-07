@@ -1,51 +1,47 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.24)
+
 project(App LANGUAGES CXX)
 
+# Use C++20 and treat warnings as errors
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Treat warnings as errors
-add_compile_options(-Wall -Wextra -Werror)
+if(MSVC)
+    add_compile_options(/W4 /WX)
+else()
+    add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+endif()
 
-# FetchContent for Crow and spdlog
-include(FetchContent)
+# Enable vcpkg toolchain if available
+if(DEFINED ENV{VCPKG_ROOT})
+    set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "Vcpkg toolchain file")
+endif()
 
-FetchContent_Declare(
-    crow
-    GIT_REPOSITORY https://github.com/CrowCpp/crow.git
-    GIT_TAG v1.0.0
-)
-FetchContent_MakeAvailable(crow)
+# Dependencies
+find_package(Crow CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+find_package(SQLite3 CONFIG REQUIRED)
 
-FetchContent_Declare(
-    spdlog
-    GIT_REPOSITORY https://github.com/gabime/spdlog.git
-    GIT_TAG v1.12.0
-)
-FetchContent_MakeAvailable(spdlog)
+# Source files
+file(GLOB_RECURSE SRC "src/*.cpp")
+add_executable(App ${SRC})
 
-# SQLite3
-find_package(SQLite3 REQUIRED)
-
-add_executable(App
-    src/main.cpp
-    src/api/UserController.cpp
-    src/api/TodoController.cpp
-    src/repositories/mappers/UserMapper.cpp
-    src/repositories/mappers/TodoMapper.cpp
-    src/models/dto/User.h
-    src/models/dto/Todo.h
-    src/models/entity/UserVo.h
-    src/models/entity/TodoVo.h
-    src/config/Config.cpp
-)
-
-target_include_directories(App PRIVATE src)
+# Include directories
+target_include_directories(App PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Link libraries
-target_link_libraries(App PRIVATE crow::crow spdlog::spdlog SQLite::SQLite3)
+target_link_libraries(App PRIVATE
+    Crow::Crow
+    nlohmann_json::nlohmann_json
+    spdlog::spdlog
+    SQLite::SQLite3
+)
 
-# Enable tests
+# Install
+install(TARGETS App DESTINATION bin)
+
+# Tests
 enable_testing()
 add_subdirectory(tests)
