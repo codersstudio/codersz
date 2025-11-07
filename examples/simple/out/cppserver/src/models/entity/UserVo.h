@@ -1,7 +1,7 @@
 #pragma once
-#include <string>
+#include <string.h>
 
-struct UserVo{
+struct UserVo {
     int id;
     std::string name;
     std::string email;

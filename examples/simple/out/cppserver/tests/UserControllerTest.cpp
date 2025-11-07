@@ -1,13 +1,12 @@
-# Integration test for UserController
-#include <catch2/catch_test_macros.hpp>
 #include "crow.h"
-#include "api/UserController.h"
-#include "repositories/mappers/UserMapper.h"
+#include "../config/Config.h"
+#include "../repositories/mappers/UserMapper.h"
+#include "../repositories/mappers/TodoMapper.h"
+#include "../models/dto/User.h"
+#include "../models/dto/Todo.h"
+#include "../models/entity/UserVo.h"
+#include "../models/entity/TodoVo.h"
+#include <vector>
 
-TEST_CASE("UserController addUser returns user", "[UserController]"){
-    crow::SimpleApp app;
-    auto mapper = std::make_shared<UserMapper>();
-    UserController ctrl(mapper);
-    ctrl.registerRoutes(app);
-    // TODO: send HTTP request to app and verify response
-}
+void UserController::registerRoutes(crow::SimpleApp &app);
+void TodoController::registerRoutes(crow::SimpleApp &app);

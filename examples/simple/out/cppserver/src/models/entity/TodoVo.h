@@ -1,7 +1,7 @@
 #pragma once
-#include <string>
+#include <string.h>
 
-struct TodoVo{
+struct TodoVo {
     int id;
     std::string title;
     bool completed;

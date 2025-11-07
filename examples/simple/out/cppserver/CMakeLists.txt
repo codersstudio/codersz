@@ -1,60 +1,51 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.22)
 project(App LANGUAGES CXX)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
 # Treat warnings as errors
 add_compile_options(-Wall -Wextra -Werror)
 
-# FetchContent for dependencies
+# FetchContent for Crow and spdlog
 include(FetchContent)
 
-# Boost
 FetchContent_Declare(
-  Boost
-  GIT_REPOSITORY https://github.com/boostorg/boost.git
-  GIT_TAG boost-1.81.0
+    crow
+    GIT_REPOSITORY https://github.com/CrowCpp/crow.git
+    GIT_TAG v1.0.0
 )
-FetchContent_MakeAvailable(Boost)
+FetchContent_MakeAvailable(crow)
 
-# Crow
 FetchContent_Declare(
-  Crow
-  GIT_REPOSITORY https://github.com/ipkn/crow.git
-  GIT_TAG master
-)
-FetchContent_MakeAvailable(Crow)
-
-# spdlog
-FetchContent_Declare(
-  spdlog
-  GIT_REPOSITORY https://github.com/gabime/spdlog.git
-  GIT_TAG v1.11.0
+    spdlog
+    GIT_REPOSITORY https://github.com/gabime/spdlog.git
+    GIT_TAG v1.12.0
 )
 FetchContent_MakeAvailable(spdlog)
 
 # SQLite3
 find_package(SQLite3 REQUIRED)
 
-# Catch2 for tests
-FetchContent_Declare(
-  Catch2
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG v3.5.0
+add_executable(App
+    src/main.cpp
+    src/api/UserController.cpp
+    src/api/TodoController.cpp
+    src/repositories/mappers/UserMapper.cpp
+    src/repositories/mappers/TodoMapper.cpp
+    src/models/dto/User.h
+    src/models/dto/Todo.h
+    src/models/entity/UserVo.h
+    src/models/entity/TodoVo.h
+    src/config/Config.cpp
 )
-FetchContent_MakeAvailable(Catch2)
 
-# Source files
-file(GLOB_RECURSE SRC_FILES "src/*.cpp")
-add_executable(App ${SRC_FILES})
+target_include_directories(App PRIVATE src)
 
 # Link libraries
-target_link_libraries(App PRIVATE Boost::boost Crow::crow spdlog::spdlog SQLite::SQLite3)
+target_link_libraries(App PRIVATE crow::crow spdlog::spdlog SQLite::SQLite3)
 
-# Tests
-add_executable(AppTests tests/*.cpp)
-target_link_libraries(AppTests PRIVATE Catch2::Catch2WithMain App)
-
-# Enable testing
-include(CTest)
-add_test(NAME AppTests COMMAND AppTests)
+# Enable tests
+enable_testing()
+add_subdirectory(tests)
