@@ -1,0 +1,9 @@
+# Exclude build artifacts and IDE files
+build/
+out/
+.cache/
+.vscode/
+*.exe
+*.dll
+*.so
+*.dylib

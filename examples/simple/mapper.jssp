@@ -1,0 +1,34 @@
+import 'schema.jssp';
+
+// mapper UserMapper from tb_user {
+mapper UserMapper {
+    query selectById(id bigint) UserVo {
+        select id, name, email
+        from tb_user
+        where id = :id;
+    }
+
+    query insertUser(name Name, email Email) int {
+        insert into tb_user (name, email, created_at, updated_at)
+        values (:name, :email, now(), now());
+    }
+}
+
+mapper TodoMapper {
+    query selectById(id bigint) TodoVo {
+        select id, title, completed
+        from tb_todo
+        where id = :id;
+    }
+    
+    query selectAll(id bigint) list<TodoVo> {
+        select id, title, completed
+        from tb_todo
+        where id = :id;
+    }
+
+    query insertTodo(title Title, completed YesNo) int {
+        insert into tb_todo (title, completed, created_at, updated_at)
+        values (:title, :completed, now(), now());
+    }
+}

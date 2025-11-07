@@ -1,0 +1,9 @@
+property {
+    baseUrl = "http://localhost:8080";
+}
+property dev {
+    baseUrl = "https://dev.example.com";
+}
+property prod {
+    baseUrl = "https://api.example.com";
+}

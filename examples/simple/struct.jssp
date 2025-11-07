@@ -1,0 +1,11 @@
+struct User {
+    var id int;
+    var name string;
+    var email string;
+}
+
+struct Todo {
+    var id int;
+    var title string;
+    var completed bool;
+}
