@@ -19,8 +19,10 @@ public class InitRunner
         Justification = "<Pending>")]
     public int Run(InitOptions opts)
     {
-        const string inputFile = CodersConfig.YmlFile;
+        BuiltinRepo.Instance.Checkout("main");
+        TemplateRepo.Instance.Checkout("main");
 
+        const string inputFile = CodersConfig.YmlFile;
         if (!opts.Force)
         {
             if (File.Exists(inputFile))
@@ -29,9 +31,6 @@ public class InitRunner
                 return 0;
             }
         }
-
-        BuiltinRepo.Instance.Checkout("main");
-        TemplateRepo.Instance.Checkout("main");
 
         CodersConfig config;
 
@@ -302,7 +301,7 @@ public class InitRunner
             Options = null
         });
 
-        // svelte
+        // sveltejs
         config.Projects.Add(new ProjectConfig
         {
             ProjectId = PlatformKey.SvelteJs,
@@ -310,6 +309,17 @@ public class InitRunner
             Platform = PlatformKey.SvelteJs,
             Entry = "pages.jssp",
             OutPath = "./out/" + PlatformKey.SvelteJs,
+            Options = null
+        });
+
+        // sveltets
+        config.Projects.Add(new ProjectConfig
+        {
+            ProjectId = PlatformKey.SvelteTs,
+            Name = "App",
+            Platform = PlatformKey.SvelteTs,
+            Entry = "pages.jssp",
+            OutPath = "./out/" + PlatformKey.SvelteTs,
             Options = null
         });
 
