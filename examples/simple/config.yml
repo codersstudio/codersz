@@ -1,8 +1,8 @@
 llmOptions:
-  # The LLM provider to use. For example, 'ollama(gpt-oss:20b)' 'gemini' 'chatgpt(gpt-5-mini)'
-  provider: "chatgpt"
+  # The LLM provider to use. For example, 'ollama(gpt-oss:20b)' 'gemini' 'chatgpt(gpt-4o-mini)'
+  provider: "ollama"
   # The model to use for LLM requests.
-  model: "gpt-5-codex"
+  model: "gpt-oss:20b"
   # The host URL for the LLM service.
   url: "http://localhost:11434"
   # The API key for authenticating with the LLM service.

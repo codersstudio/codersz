@@ -22,7 +22,7 @@ From the repository root:
    ```
    This assumes `config.yml` already points at a reachable LLM. The `llmOptions` block controls:
    - `provider`: LLM backend identifier (for example `ollama`, `chatgpt`, `gemini`).
-   - `model`: The specific model or preset exposed by that provider (`gpt-oss:20b`, `gpt-5-mini`, etc.).
+   - `model`: The specific model or preset exposed by that provider (`gpt-oss:20b`, `gpt-4o-mini`, etc.).
    - `url`: Base endpoint for the LLM service—set this when self-hosting or using non-default gateways.
    - `apiKey`: Secret/token used to authenticate requests; reference an environment variable if preferred.
    - `timeoutSeconds`: Upper time limit per LLM call (increase if larger builds time out).

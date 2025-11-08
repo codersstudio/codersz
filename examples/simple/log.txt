@@ -150,3 +150,75 @@ System.AggregateException: One or more errors occurred. (Unresolved template pla
 2025-11-08 14:08:10.381 +09:00 [INF] Build completed: App
 2025-11-08 14:16:01.265 +09:00 [INF] Building project 'App'.
 2025-11-08 14:17:35.128 +09:00 [INF] Build completed: App
+2025-11-08 14:44:37.912 +09:00 [INF] Building project 'App'.
+2025-11-08 14:44:39.407 +09:00 [ERR] Error parsing file 'main.jssp'.
+System.AggregateException: One or more errors occurred. (HTTP 404 (invalid_request_error: )
+Parameter: model
+
+This model is only supported in v1/responses and not in v1/chat/completions.)
+ ---> Microsoft.SemanticKernel.HttpOperationException: HTTP 404 (invalid_request_error: )
+Parameter: model
+
+This model is only supported in v1/responses and not in v1/chat/completions.
+ ---> System.ClientModel.ClientResultException: HTTP 404 (invalid_request_error: )
+Parameter: model
+
+This model is only supported in v1/responses and not in v1/chat/completions.
+   at OpenAI.ClientPipelineExtensions.ProcessMessageAsync(ClientPipeline pipeline, PipelineMessage message, RequestOptions options)
+   at OpenAI.Chat.ChatClient.CompleteChatAsync(BinaryContent content, RequestOptions options)
+   at OpenAI.Chat.ChatClient.CompleteChatAsync(IEnumerable`1 messages, ChatCompletionOptions options, RequestOptions requestOptions)
+   at Microsoft.SemanticKernel.Connectors.OpenAI.ClientCore.RunRequestAsync[T](Func`1 request)
+   --- End of inner exception stack trace ---
+   at Microsoft.SemanticKernel.Connectors.OpenAI.ClientCore.RunRequestAsync[T](Func`1 request)
+   at Microsoft.SemanticKernel.Connectors.OpenAI.ClientCore.GetChatMessageContentsAsync(String targetModel, ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.ChatCompletion.ChatCompletionServiceExtensions.GetChatMessageContentAsync(IChatCompletionService chatCompletionService, ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at JsspLlm.Engine.LlmEngine.RunChatPhaseAsync(Int32 phaseNumber, ChatHistory history, IChatCompletionService chat, PromptExecutionSettings settings, Kernel kernel) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 245
+   at JsspLlm.Engine.LlmEngine.RunAsync(String dslContent, JsspLlmPlatformOption platformOption) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 164
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlm(String source) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 435
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlmServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 247
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 88
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.Build(StringBuilder _sb) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 46
+   at coders.Runner.BuildRunner.BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig) in D:\dev\coders\coders_engine\coders\Runner\BuildRunner.cs:line 290
+2025-11-08 14:44:39.457 +09:00 [INF] Build completed: App
+2025-11-08 14:46:04.356 +09:00 [INF] Building project 'App'.
+2025-11-08 14:46:06.311 +09:00 [ERR] Error parsing file 'main.jssp'.
+System.AggregateException: One or more errors occurred. (HTTP 400 (invalid_request_error: unsupported_value)
+Parameter: temperature
+
+Unsupported value: 'temperature' does not support 0.2 with this model. Only the default (1) value is supported.)
+ ---> Microsoft.SemanticKernel.HttpOperationException: HTTP 400 (invalid_request_error: unsupported_value)
+Parameter: temperature
+
+Unsupported value: 'temperature' does not support 0.2 with this model. Only the default (1) value is supported.
+ ---> System.ClientModel.ClientResultException: HTTP 400 (invalid_request_error: unsupported_value)
+Parameter: temperature
+
+Unsupported value: 'temperature' does not support 0.2 with this model. Only the default (1) value is supported.
+   at OpenAI.ClientPipelineExtensions.ProcessMessageAsync(ClientPipeline pipeline, PipelineMessage message, RequestOptions options)
+   at OpenAI.Chat.ChatClient.CompleteChatAsync(BinaryContent content, RequestOptions options)
+   at OpenAI.Chat.ChatClient.CompleteChatAsync(IEnumerable`1 messages, ChatCompletionOptions options, RequestOptions requestOptions)
+   at Microsoft.SemanticKernel.Connectors.OpenAI.ClientCore.RunRequestAsync[T](Func`1 request)
+   --- End of inner exception stack trace ---
+   at Microsoft.SemanticKernel.Connectors.OpenAI.ClientCore.RunRequestAsync[T](Func`1 request)
+   at Microsoft.SemanticKernel.Connectors.OpenAI.ClientCore.GetChatMessageContentsAsync(String targetModel, ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.ChatCompletion.ChatCompletionServiceExtensions.GetChatMessageContentAsync(IChatCompletionService chatCompletionService, ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at JsspLlm.Engine.LlmEngine.RunChatPhaseAsync(Int32 phaseNumber, ChatHistory history, IChatCompletionService chat, PromptExecutionSettings settings, Kernel kernel) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 245
+   at JsspLlm.Engine.LlmEngine.RunAsync(String dslContent, JsspLlmPlatformOption platformOption) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 164
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlm(String source) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 435
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlmServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 247
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 88
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.Build(StringBuilder _sb) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 46
+   at coders.Runner.BuildRunner.BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig) in D:\dev\coders\coders_engine\coders\Runner\BuildRunner.cs:line 290
+2025-11-08 14:46:06.431 +09:00 [INF] Build completed: App
+2025-11-08 14:47:06.048 +09:00 [INF] Building project 'App'.
+2025-11-08 14:53:14.584 +09:00 [INF] Build completed: App
+2025-11-08 15:01:28.593 +09:00 [INF] Building project 'App'.
+2025-11-08 15:03:09.648 +09:00 [INF] Build completed: App

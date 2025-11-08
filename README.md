@@ -23,7 +23,7 @@ A freshly initialized workspace looks like this:
 llmOptions:
   # The LLM provider to use (for example 'ollama', 'gemini', 'chatgpt')
   provider: "ollama"
-  # Model name to request during builds (for example "gpt-5-mini")
+  # Model name to request during builds (for example "gpt-4o-mini")
   model: "gpt-oss:20b"
   # Endpoint for the LLM service
   url: "http://localhost:11434"
@@ -85,7 +85,7 @@ Each project entry defines the target platform, entry script, output directory, 
 
 The root-level `llmOptions` block configures the generative AI backend used when you run `coders build --engine llm`. Choose a `provider`, set the `model` you want to call, and override the endpoint with `url` when necessary. The `apiKey` accepts either a literal key or the name of an environment variable, and `timeoutSeconds` raises or lowers the per-request time limit. If your provider needs extra fields (custom hosts, organization IDs, and so on) declare them in the same block to fine-tune LLM behavior.
 
-> **Tested LLM combos:** builds have been verified with `ollama` + `gpt-oss:20b` and `chatgpt` + `gpt-5-mini`.
+> **Tested LLM combos:** builds have been verified with `ollama` + `gpt-oss:20b` and `chatgpt` + `gpt-4o-mini`.
 
 ### Build sources
 
