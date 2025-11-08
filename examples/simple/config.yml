@@ -1,12 +1,12 @@
 llmOptions:
   # The LLM provider to use. For example, 'ollama(gpt-oss:20b)' 'gemini' 'chatgpt(gpt-5-mini)'
-  provider: "ollama"
+  provider: "chatgpt"
   # The model to use for LLM requests.
-  model: "gpt-oss:20b"
+  model: "gpt-5-codex"
   # The host URL for the LLM service.
   url: "http://localhost:11434"
   # The API key for authenticating with the LLM service.
-  apiKey: "OLLAMA_API_KEY"
+  apiKey: "OPENAI_API_KEY"
   # Timeout in seconds for LLM requests.
   timeoutSeconds: 300
 # Entry point file path for the project

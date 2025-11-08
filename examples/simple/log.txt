@@ -1,2 +1,152 @@
-2025-11-08 02:34:48.230 +09:00 [INF] Building project 'App'.
-2025-11-08 02:41:36.271 +09:00 [INF] Build completed: App
+2025-11-08 11:59:42.596 +09:00 [INF] Building project 'App'.
+2025-11-08 12:03:10.181 +09:00 [INF] Build completed: App
+2025-11-08 12:10:31.111 +09:00 [INF] Building project 'App'.
+2025-11-08 12:12:18.972 +09:00 [INF] Build completed: App
+2025-11-08 12:18:44.184 +09:00 [INF] Building project 'App'.
+2025-11-08 12:45:03.569 +09:00 [INF] Build completed: App
+2025-11-08 12:49:19.942 +09:00 [INF] Building project 'App'.
+2025-11-08 13:01:42.200 +09:00 [INF] Build completed: App
+2025-11-08 13:10:33.394 +09:00 [INF] Building project 'App'.
+2025-11-08 13:13:12.967 +09:00 [INF] Build completed: App
+2025-11-08 13:14:05.997 +09:00 [INF] Building project 'App'.
+2025-11-08 13:16:38.938 +09:00 [INF] Build completed: App
+2025-11-08 13:22:03.561 +09:00 [INF] Building project 'App'.
+2025-11-08 13:27:41.253 +09:00 [INF] Build completed: App
+2025-11-08 13:28:26.667 +09:00 [INF] Building project 'App'.
+2025-11-08 13:28:49.854 +09:00 [ERR] Error parsing file 'main.jssp'.
+System.AggregateException: One or more errors occurred. (Missing argument for function parameter 'idempotencyKey')
+ ---> Microsoft.SemanticKernel.KernelException: Missing argument for function parameter 'idempotencyKey'
+ ---> System.ArgumentException: Missing argument for function parameter (Parameter 'idempotencyKey')
+   --- End of inner exception stack trace ---
+   at Microsoft.SemanticKernel.KernelFunctionFromMethod.<>c__DisplayClass23_0.<GetParameterMarshalerDelegate>g__parameterFunc|9(KernelFunction _, Kernel kernel, KernelArguments arguments, CancellationToken __)
+   at Microsoft.SemanticKernel.KernelFunctionFromMethod.<>c__DisplayClass21_0.<GetMethodDetails>g__Function|0(Kernel kernel, KernelFunction function, KernelArguments arguments, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.KernelFunctionFromMethod.InvokeCoreAsync(Kernel kernel, KernelArguments arguments, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.KernelFunction.<>c__DisplayClass32_0.<<InvokeAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.SemanticKernel.Kernel.InvokeFilterOrFunctionAsync(NonNullCollection`1 functionFilters, Func`2 functionCallback, FunctionInvocationContext context, Int32 index)
+   at Microsoft.SemanticKernel.Kernel.OnFunctionInvocationAsync(KernelFunction function, KernelArguments arguments, FunctionResult functionResult, Boolean isStreaming, Func`2 functionCallback, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.KernelFunction.InvokeAsync(Kernel kernel, KernelArguments arguments, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.<>c__DisplayClass3_0.<<InvokeFunctionAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.InvokeFilterOrFunctionAsync(Func`2 functionCallCallback, AutoFunctionInvocationContext context, Int32 index)
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.OnAutoFunctionInvocationAsync(AutoFunctionInvocationContext context, Func`2 functionCallCallback)
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.InvokeFunctionAsync(FunctionInvocationContext context, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.InstrumentedInvokeFunctionAsync(FunctionInvocationContext context, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.ProcessFunctionCallAsync(List`1 messages, ChatOptions options, Dictionary`2 toolMap, List`1 callContents, Int32 iteration, Int32 functionCallIndex, Boolean captureExceptions, Boolean isStreaming, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.ProcessFunctionCallsAsync(List`1 messages, ChatOptions options, Dictionary`2 toolMap, List`1 functionCallContents, Int32 iteration, Int32 consecutiveErrorCount, Boolean isStreaming, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.GetResponseAsync(IEnumerable`1 messages, ChatOptions options, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.LoggingChatClient.GetResponseAsync(IEnumerable`1 messages, ChatOptions options, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.ChatCompletion.ChatClientChatCompletionService.GetChatMessageContentsAsync(ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.ChatCompletion.ChatCompletionServiceExtensions.GetChatMessageContentAsync(IChatCompletionService chatCompletionService, ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at JsspLlm.Engine.LlmEngine.RunChatPhaseAsync(Int32 phaseNumber, ChatHistory history, IChatCompletionService chat, PromptExecutionSettings settings, Kernel kernel) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 227
+   at JsspLlm.Engine.LlmEngine.RunAsync(String dslContent, JsspLlmOption llmOption, JsspLlmPlatformOption platformOption) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 194
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlm(String source) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 441
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlmServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 251
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 92
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.Build(StringBuilder _sb) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 50
+   at coders.Runner.BuildRunner.BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig) in D:\dev\coders\coders_engine\coders\Runner\BuildRunner.cs:line 290
+2025-11-08 13:28:49.928 +09:00 [INF] Build completed: App
+2025-11-08 13:28:56.728 +09:00 [INF] Building project 'App'.
+2025-11-08 13:29:32.136 +09:00 [ERR] Error parsing file 'main.jssp'.
+System.AggregateException: One or more errors occurred. (Missing argument for function parameter 'idempotencyKey')
+ ---> Microsoft.SemanticKernel.KernelException: Missing argument for function parameter 'idempotencyKey'
+ ---> System.ArgumentException: Missing argument for function parameter (Parameter 'idempotencyKey')
+   --- End of inner exception stack trace ---
+   at Microsoft.SemanticKernel.KernelFunctionFromMethod.<>c__DisplayClass23_0.<GetParameterMarshalerDelegate>g__parameterFunc|9(KernelFunction _, Kernel kernel, KernelArguments arguments, CancellationToken __)
+   at Microsoft.SemanticKernel.KernelFunctionFromMethod.<>c__DisplayClass21_0.<GetMethodDetails>g__Function|0(Kernel kernel, KernelFunction function, KernelArguments arguments, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.KernelFunctionFromMethod.InvokeCoreAsync(Kernel kernel, KernelArguments arguments, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.KernelFunction.<>c__DisplayClass32_0.<<InvokeAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.SemanticKernel.Kernel.InvokeFilterOrFunctionAsync(NonNullCollection`1 functionFilters, Func`2 functionCallback, FunctionInvocationContext context, Int32 index)
+   at Microsoft.SemanticKernel.Kernel.OnFunctionInvocationAsync(KernelFunction function, KernelArguments arguments, FunctionResult functionResult, Boolean isStreaming, Func`2 functionCallback, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.KernelFunction.InvokeAsync(Kernel kernel, KernelArguments arguments, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.<>c__DisplayClass3_0.<<InvokeFunctionAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.InvokeFilterOrFunctionAsync(Func`2 functionCallCallback, AutoFunctionInvocationContext context, Int32 index)
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.OnAutoFunctionInvocationAsync(AutoFunctionInvocationContext context, Func`2 functionCallCallback)
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.InvokeFunctionAsync(FunctionInvocationContext context, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.InstrumentedInvokeFunctionAsync(FunctionInvocationContext context, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.ProcessFunctionCallAsync(List`1 messages, ChatOptions options, Dictionary`2 toolMap, List`1 callContents, Int32 iteration, Int32 functionCallIndex, Boolean captureExceptions, Boolean isStreaming, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.ProcessFunctionCallsAsync(List`1 messages, ChatOptions options, Dictionary`2 toolMap, List`1 functionCallContents, Int32 iteration, Int32 consecutiveErrorCount, Boolean isStreaming, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.GetResponseAsync(IEnumerable`1 messages, ChatOptions options, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.LoggingChatClient.GetResponseAsync(IEnumerable`1 messages, ChatOptions options, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.ChatCompletion.ChatClientChatCompletionService.GetChatMessageContentsAsync(ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.ChatCompletion.ChatCompletionServiceExtensions.GetChatMessageContentAsync(IChatCompletionService chatCompletionService, ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at JsspLlm.Engine.LlmEngine.RunChatPhaseAsync(Int32 phaseNumber, ChatHistory history, IChatCompletionService chat, PromptExecutionSettings settings, Kernel kernel) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 227
+   at JsspLlm.Engine.LlmEngine.RunAsync(String dslContent, JsspLlmOption llmOption, JsspLlmPlatformOption platformOption) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 194
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlm(String source) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 441
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlmServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 251
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 92
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.Build(StringBuilder _sb) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 50
+   at coders.Runner.BuildRunner.BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig) in D:\dev\coders\coders_engine\coders\Runner\BuildRunner.cs:line 290
+2025-11-08 13:29:32.166 +09:00 [INF] Build completed: App
+2025-11-08 13:30:37.807 +09:00 [INF] Building project 'App'.
+2025-11-08 13:31:21.020 +09:00 [ERR] Error parsing file 'main.jssp'.
+System.AggregateException: One or more errors occurred. (Missing argument for function parameter 'idempotencyKey')
+ ---> Microsoft.SemanticKernel.KernelException: Missing argument for function parameter 'idempotencyKey'
+ ---> System.ArgumentException: Missing argument for function parameter (Parameter 'idempotencyKey')
+   --- End of inner exception stack trace ---
+   at Microsoft.SemanticKernel.KernelFunctionFromMethod.<>c__DisplayClass23_0.<GetParameterMarshalerDelegate>g__parameterFunc|9(KernelFunction _, Kernel kernel, KernelArguments arguments, CancellationToken __)
+   at Microsoft.SemanticKernel.KernelFunctionFromMethod.<>c__DisplayClass21_0.<GetMethodDetails>g__Function|0(Kernel kernel, KernelFunction function, KernelArguments arguments, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.KernelFunctionFromMethod.InvokeCoreAsync(Kernel kernel, KernelArguments arguments, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.KernelFunction.<>c__DisplayClass32_0.<<InvokeAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.SemanticKernel.Kernel.InvokeFilterOrFunctionAsync(NonNullCollection`1 functionFilters, Func`2 functionCallback, FunctionInvocationContext context, Int32 index)
+   at Microsoft.SemanticKernel.Kernel.OnFunctionInvocationAsync(KernelFunction function, KernelArguments arguments, FunctionResult functionResult, Boolean isStreaming, Func`2 functionCallback, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.KernelFunction.InvokeAsync(Kernel kernel, KernelArguments arguments, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.<>c__DisplayClass3_0.<<InvokeFunctionAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.InvokeFilterOrFunctionAsync(Func`2 functionCallCallback, AutoFunctionInvocationContext context, Int32 index)
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.OnAutoFunctionInvocationAsync(AutoFunctionInvocationContext context, Func`2 functionCallCallback)
+   at Microsoft.Extensions.AI.KernelFunctionInvokingChatClient.InvokeFunctionAsync(FunctionInvocationContext context, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.InstrumentedInvokeFunctionAsync(FunctionInvocationContext context, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.ProcessFunctionCallAsync(List`1 messages, ChatOptions options, Dictionary`2 toolMap, List`1 callContents, Int32 iteration, Int32 functionCallIndex, Boolean captureExceptions, Boolean isStreaming, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.ProcessFunctionCallsAsync(List`1 messages, ChatOptions options, Dictionary`2 toolMap, List`1 functionCallContents, Int32 iteration, Int32 consecutiveErrorCount, Boolean isStreaming, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.FunctionInvokingChatClient.GetResponseAsync(IEnumerable`1 messages, ChatOptions options, CancellationToken cancellationToken)
+   at Microsoft.Extensions.AI.LoggingChatClient.GetResponseAsync(IEnumerable`1 messages, ChatOptions options, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.ChatCompletion.ChatClientChatCompletionService.GetChatMessageContentsAsync(ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at Microsoft.SemanticKernel.ChatCompletion.ChatCompletionServiceExtensions.GetChatMessageContentAsync(IChatCompletionService chatCompletionService, ChatHistory chatHistory, PromptExecutionSettings executionSettings, Kernel kernel, CancellationToken cancellationToken)
+   at JsspLlm.Engine.LlmEngine.RunChatPhaseAsync(Int32 phaseNumber, ChatHistory history, IChatCompletionService chat, PromptExecutionSettings settings, Kernel kernel) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 227
+   at JsspLlm.Engine.LlmEngine.RunAsync(String dslContent, JsspLlmOption llmOption, JsspLlmPlatformOption platformOption) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 194
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlm(String source) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 441
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlmServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 251
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildServer() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 92
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.Build(StringBuilder _sb) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 50
+   at coders.Runner.BuildRunner.BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig) in D:\dev\coders\coders_engine\coders\Runner\BuildRunner.cs:line 290
+2025-11-08 13:31:21.063 +09:00 [INF] Build completed: App
+2025-11-08 13:31:43.187 +09:00 [INF] Building project 'App'.
+2025-11-08 13:37:03.197 +09:00 [INF] Build completed: App
+2025-11-08 13:51:25.672 +09:00 [ERR] No project found with ProjectId 'goclient'.
+2025-11-08 13:51:35.641 +09:00 [INF] Building project 'App'.
+2025-11-08 13:51:36.120 +09:00 [ERR] Error parsing file 'main.jssp'.
+System.AggregateException: One or more errors occurred. (Unresolved template placeholders in system prompt.)
+ ---> System.InvalidOperationException: Unresolved template placeholders in system prompt.
+   at JsspLlm.Engine.LlmEngine.RunAsync(String dslContent, JsspLlmOption llmOption, JsspLlmPlatformOption platformOption) in D:\dev\coders\coders_engine\JsspLlm\Engine\LlmEngine.cs:line 136
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlm(String source) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 441
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildLlmClient() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 178
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.BuildClient() in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 105
+   at JsspPlatform.Project.Llm.LlmProjectBuilder.Build(StringBuilder _sb) in D:\dev\coders\coders_engine\JsspPlatform\Project\Llm\LlmProjectBuilder.cs:line 38
+   at coders.Runner.BuildRunner.BuildWithLlm(LlmOption llmOption, ProjectConfig projectConfig) in D:\dev\coders\coders_engine\coders\Runner\BuildRunner.cs:line 290
+2025-11-08 13:51:36.141 +09:00 [INF] Build completed: App
+2025-11-08 13:57:56.026 +09:00 [INF] Building project 'App'.
+2025-11-08 14:00:01.035 +09:00 [INF] Build completed: App
+2025-11-08 14:03:22.008 +09:00 [INF] Building project 'App'.
+2025-11-08 14:08:10.381 +09:00 [INF] Build completed: App
+2025-11-08 14:16:01.265 +09:00 [INF] Building project 'App'.
+2025-11-08 14:17:35.128 +09:00 [INF] Build completed: App
