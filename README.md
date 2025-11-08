@@ -1,6 +1,6 @@
 # Coders CLI
 
-Coders is a powerful transpiler that converts source code into native artifacts for many platforms, and it also uses generative AI to translate virtually every major programming language.
+Coders is a powerful transpiler that turns source scripts into native code for many platforms, and it uses generative AI to translate almost every major programming language.
 
 ## Installation
 
@@ -12,20 +12,20 @@ dotnet tool install -g coders
 
 ### Initialize a workspace
 
-Run `coders init` to generate the configuration file and sample assets.
+Run `coders init` to generate the configuration file and sample files.
 
-- Without `--force`, the command exits early when `config.yml` already exists.
-- Use `coders init --force` to refresh the files with the latest templates.
+- Without `--force`, the command exits early if `config.yml` already exists.
+- Run `coders init --force` to overwrite the existing files with the latest templates.
 
-A freshly initialized workspace looks like this:
+A sample result looks like this:
 
 ```yaml
 llmOptions:
-  # The LLM provider to use (for example 'ollama', 'gemini', 'chatgpt')
+  # LLM provider to use (e.g., 'ollama', 'gemini', 'chatgpt')
   provider: "ollama"
-  # Model name to request during builds (for example "gpt-4o-mini")
+  # Model that will be used during builds (e.g., "gpt-4o-mini")
   model: "gpt-oss:20b"
-  # Endpoint for the LLM service
+  # LLM service endpoint
   url: "http://localhost:11434"
   # API key value or the name of an environment variable
   apiKey: "OLLAMA_API_KEY"
@@ -78,65 +78,65 @@ projects:
         - implementation 'org.springframework.boot:spring-boot-starter-web'
         - implementation 'org.springframework.boot:spring-boot-starter-security'
         - implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
-# … add the remaining platform definitions as needed
+# … continue declaring the platforms you need
 ```
 
 Each project entry defines the target platform, entry script, output directory, and any platform-specific options.
 
-The root-level `llmOptions` block configures the generative AI backend used when you run `coders build --engine llm`. Choose a `provider`, set the `model` you want to call, and override the endpoint with `url` when necessary. The `apiKey` accepts either a literal key or the name of an environment variable, and `timeoutSeconds` raises or lowers the per-request time limit. If your provider needs extra fields (custom hosts, organization IDs, and so on) declare them in the same block to fine-tune LLM behavior.
+The root-level `llmOptions` block describes the generative AI backend used when you run `coders build --engine llm`. Choose a `provider`, set the `model` name to call, and override the endpoint with `url` if necessary. `apiKey` accepts either the direct key or the name of an environment variable, and you can adjust `timeoutSeconds` for long-running requests. If the provider requires extra fields (custom endpoints, organization IDs, and so on), declare them in the same block to fine-tune the invocation.
 
-> **Tested LLM combos:** builds have been verified with `ollama` + `gpt-oss:20b` and `chatgpt` + `gpt-4o-mini`.
+> Builds are verified with the `ollama` + `gpt-oss:20b`, `chatgpt` + `gpt-4o-mini`, and `gemini` + `gemini-2.5-pro` combinations.
 
 ### Build sources
 
-Use `coders build` to parse `.jssp` scripts and emit code for the configured projects.
+Use `coders build` to parse `.jssp` files and generate code for each configured project.
 
 Key options:
 
-- `-p|--projectId <id>` selects a project from `config.yml`. When omitted, the command performs parse-only validation.
-- `-c|--config <path>` loads an alternate configuration file (defaults to `config.yml` in the current directory).
-- `-e|--engine <llm|builtin>` chooses the generator. `llm` orchestrates builds through an AI model, while `builtin` runs fully offline using the bundled assets.
-- `-v` raises console verbosity to include informational logs. Every run also appends diagnostics to `log.txt`.
+- `-p|--projectId <id>`: selects a project from `config.yml`. When omitted, the command only validates parsing.
+- `-c|--config <path>`: points to a different configuration file (defaults to `config.yml` in the current directory).
+- `-e|--engine <llm|builtin>`: chooses the generation engine. `llm` coordinates the build through a model, while `builtin` runs without any LLM calls and currently supports the springboot, vuejs, cpp, java, python, dart, and csharp client targets.
+- `-v`: expands console logging to the information level. Every run also appends diagnostics to `log.txt`.
 
-During a build Coders validates the selected project, prepares the output directory, and produces artifacts with the chosen engine.
+The build validates the selected project, prepares the output directory, and creates artifacts with the chosen engine.
 
 ### Sample workflow
 
 ```sh
 coders init
-coders build -p springboot --engine builtin -v
+coders build -p springboot --engine llm -v
 ```
 
-The sequence above creates a fresh workspace, verifies the starter scripts, and generates a Spring Boot project under `./out/springboot`.
+This sequence creates a new workspace, validates the seed script, and generates a Spring Boot project in `./out/springboot`.
 
 ## Configuration notes
 
-`config.yml` is the control center for the CLI. Each project definition must include:
+`config.yml` is the main configuration file for the CLI; use it to add, remove, or customize projects. Each entry requires the following values.
 
-- `projectId`: identifier passed to `coders build -p`
-- `platform`: target platform key (for example `java`, `vuejs`, `springboot`, `cpp`, `csharp`, and more)
+- `projectId`: identifier you pass to `coders build -p`
+- `platform`: target platform key (e.g., `java`, `vuejs`, `springboot`, `cpp`, `csharp`, etc.)
 - `entry`: path to the root `.jssp` file
-- `outPath`: destination directory for generated code
-- `options`: platform-specific overrides such as packages, namespaces, language versions, or extra dependencies
+- `outPath`: directory where generated artifacts will be stored
+- `options`: platform-specific details such as package names, namespaces, language versions, or extra dependencies
 
-The working directory also contains `log.txt` for troubleshooting and `LICENSE.md` for licensing details.
+The working directory stores `log.txt` for troubleshooting and `LICENSE.md` for licensing details.
 
-- Run `coders init` to bootstrap a workspace and add `--force` if you need to regenerate existing files.
-- Run `coders build -p <projectId>` to compile for a configured platform. Use `--config <path>` for alternate configs, `--engine builtin` to force the offline generator, and `-v` for verbose logging.
-- A typical flow looks like this:
+- Use `coders init` to bootstrap the workspace, and pass `--force` if the files already exist.
+- Run `coders build -p <projectId>` to generate code for a configured platform. Point to another config with `--config <path>`, force the built-in engine with `--engine builtin`, and raise verbosity with `-v`.
+- A representative workflow looks like:
 
   ```sh
   coders init
-  coders build -p springboot --engine builtin -v
+  coders build -p springboot --engine llm -v
   ```
 
-  The build validates the project, prepares the output path, and emits every artifact defined in the configuration.
+  The build validates the project, prepares the output path, and generates the artifacts defined in the configuration.
 
 ## Syntax highlights
 
-The Coders language lets you describe application logic, HTTP endpoints, and persistence inside a single `.jssp` layer. The following snippets illustrate common patterns supported by the CLI.
+The Coders language lets you define application logic, HTTP endpoints, and persistence in a single `.jssp` hierarchy. The CLI recognizes the following common patterns.
 
-- **Core scripting** supports expressions, conditionals, loops, try/catch, generics, and dynamic typing. Types can be declared inline and converted as needed.
+- **Core scripts** support expressions, conditionals, loops, try/catch, generics, and dynamic typing. Types can be declared inline and converted as needed.
 
   ```jssp
   func main() {
@@ -152,7 +152,7 @@ The Coders language lets you describe application logic, HTTP endpoints, and per
   dynamicValue = "now a string";
   ```
 
-- **HTTP controllers** describe routes, verbs, parameters, and bindings, while decorators expose metadata for generated clients and servers.
+- **HTTP controllers** describe routes, methods, parameters, and bindings, and decorators provide metadata for generated clients and servers.
 
   ```jssp
   [baseUrl='/api/v1/sample']
@@ -164,7 +164,7 @@ The Coders language lets you describe application logic, HTTP endpoints, and per
   }
   ```
 
-  Reusable API clients can wrap controllers:
+  Reusable API clients can wrap controllers.
 
   ```jssp
   api SampleApi from @controller.SampleController {
@@ -178,7 +178,7 @@ The Coders language lets you describe application logic, HTTP endpoints, and per
   }
   ```
 
-- **Data modeling** links tables, entities, domains, and mappers for relational workflows.
+- **Data modeling** connects tables, entities, domains, and mappers to describe relational workflows.
 
   ```jssp
   domain Email varchar(320);
@@ -202,7 +202,7 @@ The Coders language lets you describe application logic, HTTP endpoints, and per
   }
   ```
 
-  Schema declarations also provide helper macros for indexes and foreign keys:
+  Schema declarations also offer helpers for indexes and foreign keys.
 
   ```jssp
   table user_role {
@@ -231,7 +231,7 @@ The Coders language lets you describe application logic, HTTP endpoints, and per
   }
   ```
 
-  At runtime you can reference the resources with the `@message`, `@css`, and `@property` macros.
+  At runtime you can access the resources with the `@message`, `@css`, and `@property` macros.
 
 - **HTML components** define Vue-style templates with optional script logic and can reuse helpers such as `@css`.
 
@@ -255,9 +255,9 @@ The Coders language lets you describe application logic, HTTP endpoints, and per
   }
   ```
 
-  Generated markup normalizes utility classes such as `text-gray-800`, and when you omit custom CSS it emits a scoped style block automatically.
+  The generated markup normalizes utility classes like `text-gray-800`, and when you omit custom CSS it emits a scoped style block for the component.
 
-- **Namespaces and interfaces** mirror familiar platform constructs and allow method-style access.
+- **Namespaces and interfaces** mirror platform idioms and enable method-style access.
 
   ```jssp
   namespace http {
