@@ -62,8 +62,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\codersz_engine\JsspParser\JsspParser.csproj" />
-      <ProjectReference Include="..\..\codersz_engine\JsspPlatform\JsspPlatform.csproj" />
+      <ProjectReference Include="..\..\coders_engine\JsspParser\JsspParser.csproj" />
+      <ProjectReference Include="..\..\coders_engine\JsspPlatform\JsspPlatform.csproj" />
     </ItemGroup>
 
 </Project>

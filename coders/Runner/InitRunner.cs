@@ -90,10 +90,10 @@ public class InitRunner
         {
             ProjectId = "csharp",
             Name = "App",
-            Platform = PlatformKey.CSharp,
+            Platform = PlatformKey.Dotnet,
             Dbms = DbmsKey.Sqlite,
             Entry = "main.jssp",
-            OutPath = "./out/" + PlatformKey.CSharp,
+            OutPath = "./out/" + PlatformKey.Dotnet,
             Options = new ProjectOption
             {
                 Namespace = "Example",
