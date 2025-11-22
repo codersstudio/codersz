@@ -12,125 +12,69 @@ dotnet tool install -g coders
 
 ### Initialize a workspace
 
-Run `coders init` to generate the configuration file and sample files.
+Run `coders init` to create the default settings and sample `.jssp` bundle.
 
-- Without `--force`, the command exits early if `config.yml` already exists.
-- Run `coders init --force` to overwrite the existing files with the latest templates.
+- Without `-f|--force`, the command stops if `config.yml` already exists.
+- Use `-v|--verbose` to raise console logging to Information.
+- With `--force`, existing files are overwritten by new templates.
 
-A sample result looks like this:
+The generated `config.yml` defaults look like this:
 
 ```yaml
 llmOptions:
-  # LLM provider to use (e.g., 'ollama', 'gemini', 'chatgpt')
+  # LLM provider to use
   provider: "ollama"
-  # Model that will be used during builds (e.g., "gpt-4o-mini")
-  model: "gpt-oss:20b"
-  # LLM service endpoint
+  # Model that will be used during builds
+  model: "gpt-oss-safeguard:20b"
+  # LLM service endpoint and auth
   url: "http://localhost:11434"
-  # API key value or the name of an environment variable
   apiKey: "OLLAMA_API_KEY"
-  # Request timeout in seconds
   timeoutSeconds: 300
+  stream: true
 entry: main.jssp
-projects:
-  - projectId: cpp
-    name: App
-    platform: cpp
-    entry: main.jssp
-    outPath: ./out/cpp
-  - projectId: java
-    name: App
-    platform: java
-    entry: main.jssp
-    outPath: ./out/java
-    options:
-      package: com.example
-      mainClass: App
-  - projectId: csharp
-    name: App
-    platform: csharp
-    entry: main.jssp
-    outPath: ./out/csharp
-    options:
-      namespace: Example
-  - projectId: vuejs
-    name: App
-    platform: vuejs
-    entry: main.jssp
-    outPath: ./out/vuejs
-  - projectId: springboot
-    name: App
-    platform: springboot
-    entry: main.jssp
-    outPath: ./out/springboot
-    options:
-      package: com.example.demo
-      language: java
-      languageVersion: "21"
-      mainClass: Demo
-      group: com.example
-      description: Demo project for Spring Boot
-      plugins:
-        - id 'java'
-        - id 'org.springframework.boot' version '3.5.5'
-        - id 'io.spring.dependency-management' version '1.1.7'
-      dependencies:
-        - implementation 'org.springframework.boot:spring-boot-starter-web'
-        - implementation 'org.springframework.boot:spring-boot-starter-security'
-        - implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
-# … continue declaring the platforms you need
+projects: []
 ```
 
-Each project entry defines the target platform, entry script, output directory, and any platform-specific options.
+The root `llmOptions` block controls provider, model, endpoint, auth, timeout, and streaming for LLM calls. The `projects` array defines platform outputs; add entries with `coders platform add` and edit as needed.
 
-The root-level `llmOptions` block describes the generative AI backend used when you run `coders build --engine llm`. Choose a `provider`, set the `model` name to call, and override the endpoint with `url` if necessary. `apiKey` accepts either the direct key or the name of an environment variable, and you can adjust `timeoutSeconds` for long-running requests. If the provider requires extra fields (custom endpoints, organization IDs, and so on), declare them in the same block to fine-tune the invocation.
+### Manage platforms
 
-> Builds are verified with the `ollama` + `gpt-oss:20b`, `chatgpt` + `gpt-4o-mini`, and `gemini` + `gemini-2.5-pro` combinations.
+- `coders platform list [-v]`: prints available platform keys and default target/language info.
+- `coders platform add <platform> [-v]`: appends a default project config for the platform to `config.yml`. Edit the generated entry paths and options as needed.
+- `coders platform remove <platform> [-v]`: reserved subcommand.
 
 ### Build sources
 
-Use `coders build` to parse `.jssp` files and generate code for each configured project.
+Run `coders build <platform> [-v]` to parse `.jssp` files and generate code for the given platform.
 
-Key options:
+- `platform` must match a platform key declared in `config.yml` under `projects`.
+- If `config.yml` is missing, the build stops; if the entry file is missing, an error is raised.
+- The output directory is created automatically when absent.
 
-- `-p|--projectId <id>`: selects a project from `config.yml`. When omitted, the command only validates parsing.
-- `-c|--config <path>`: points to a different configuration file (defaults to `config.yml` in the current directory).
-- `-e|--engine <llm|builtin>`: chooses the generation engine. `llm` coordinates the build through a model, while `builtin` runs without any LLM calls and currently supports the springboot, vuejs, cpp, java, python, dart, and csharp client targets.
-- `-v`: expands console logging to the information level. Every run also appends diagnostics to `log.txt`.
+### Extract prompts
 
-The build validates the selected project, prepares the output directory, and creates artifacts with the chosen engine.
+`coders extract <target> <platform> [-o|--output <path>] [-v]` extracts prompts and related resources.
 
-### Sample workflow
+- `target` is the extraction target (e.g., `prompt`); `platform` is the platform key.
+- Use `--output` to set the destination directory; defaults to the current directory.
+
+### Typical flow
 
 ```sh
 coders init
-coders build -p springboot --engine llm -v
+coders platform add <platform>
+coders build <platform> -v
 ```
 
-This sequence creates a new workspace, validates the seed script, and generates a Spring Boot project in `./out/springboot`.
+Initialize the workspace, add the needed platform to the config, then build with the same key.
 
 ## Configuration notes
 
-`config.yml` is the main configuration file for the CLI; use it to add, remove, or customize projects. Each entry requires the following values.
+`config.yml` controls the CLI end to end.
 
-- `projectId`: identifier you pass to `coders build -p`
-- `platform`: target platform key (e.g., `java`, `vuejs`, `springboot`, `cpp`, `csharp`, etc.)
-- `entry`: path to the root `.jssp` file
-- `outPath`: directory where generated artifacts will be stored
-- `options`: platform-specific details such as package names, namespaces, language versions, or extra dependencies
-
-The working directory stores `log.txt` for troubleshooting and `LICENSE.md` for licensing details.
-
-- Use `coders init` to bootstrap the workspace, and pass `--force` if the files already exist.
-- Run `coders build -p <projectId>` to generate code for a configured platform. Point to another config with `--config <path>`, force the built-in engine with `--engine builtin`, and raise verbosity with `-v`.
-- A representative workflow looks like:
-
-  ```sh
-  coders init
-  coders build -p springboot --engine llm -v
-  ```
-
-  The build validates the project, prepares the output path, and generates the artifacts defined in the configuration.
+- `entry`: root `.jssp` file to parse by default.
+- `projects`: each item defines `platform`, `name`, `outPath`, `entry`, `target`, `language`, and `options`. In `options` you can set fields such as `package`, `namespace`, `module`, `mainClass`, `languageVersion`, `version`, `group`, `description`, `plugins`, `dependencies`, `onlySource`, `extra`, and `useHistory` to suit the platform needs.
+- `llmOptions`: configure provider (`provider`), model (`model`), endpoint (`url`), auth (`apiKey`), timeout (`timeoutSeconds`), and streaming (`stream`). Add any extra fields required by your provider in the same block.
 
 ## Syntax highlights
 
@@ -138,7 +82,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **Core scripts** support expressions, conditionals, loops, try/catch, generics, and dynamic typing. Types can be declared inline and converted as needed.
 
-  ```jssp
+  ```js
   func main() {
     var numbers list<int32> = [1, 2, 3];
     for (var item in numbers) {
@@ -154,7 +98,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **HTTP controllers** describe routes, methods, parameters, and bindings, and decorators provide metadata for generated clients and servers.
 
-  ```jssp
+  ```js
   [baseUrl='/api/v1/sample']
   controller SampleController {
     [method=get, route='users/{id}', contentType='application/json']
@@ -166,7 +110,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
   Reusable API clients can wrap controllers.
 
-  ```jssp
+  ```js
   api SampleApi from @controller.SampleController {
     var server string;
   }
@@ -180,7 +124,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **Data modeling** connects tables, entities, domains, and mappers to describe relational workflows.
 
-  ```jssp
+  ```js
   domain Email varchar(320);
 
   table user_profile {
@@ -204,7 +148,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
   Schema declarations also offer helpers for indexes and foreign keys.
 
-  ```jssp
+  ```js
   table user_role {
     user_id bigint;
     role_id bigint;
@@ -213,9 +157,30 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
   }
   ```
 
+- **Mappers** wrap select/insert/update/delete statements over declared tables/entities and use name-based parameters (e.g., `:name`) for binding.
+
+  ```js
+  mapper TodoMapper {
+    query insertTodo(title Title, completed YesNo) int {
+      insert into tb_todo (title, completed, created_at, updated_at)
+      values (:title, :completed, now(), now());
+    }
+
+    query updateTodo(id bigint, completed YesNo) int {
+      update tb_todo
+      set completed = :completed, updated_at = now()
+      where id = :id;
+    }
+
+    query deleteTodo(id bigint) int {
+      delete from tb_todo where id = :id;
+    }
+  }
+  ```
+
 - **Presentation helpers** cover localization, style composition, and property bundles.
 
-  ```jssp
+  ```js
   define message [locale='en', default=true] {
     welcome 'Hello {name}!';
   }
@@ -235,7 +200,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **HTML components** define Vue-style templates with optional script logic and can reuse helpers such as `@css`.
 
-  ```jssp
+  ```js
   define css {
     text.primary {
       text-gray-800 dark:text-gray-100;
@@ -259,7 +224,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **Namespaces and interfaces** mirror platform idioms and enable method-style access.
 
-  ```jssp
+  ```js
   namespace http {
     interface Header {
       func get(key string) string;

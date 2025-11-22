@@ -1,220 +1,44 @@
 llmOptions:
-  # The LLM provider to use. For example, 'ollama(gpt-oss:20b)' 'gemini' 'chatgpt(gpt-4o-mini)'
+  # The LLM provider to use. For example, 'ollama(gpt-oss:20b)' 'gemini(gemini-2.5-pro)' 'chatgpt(gpt-4o-mini)'
   provider: "ollama"
   # The model to use for LLM requests.
-  model: "gpt-oss:20b"
+  model: "gpt-oss-safeguard:20b"
   # The host URL for the LLM service.
   url: "http://localhost:11434"
   # The API key for authenticating with the LLM service.
-  apiKey: "OPENAI_API_KEY"
+  apiKey: "OLLAMA_API_KEY"
   # Timeout in seconds for LLM requests.
   timeoutSeconds: 300
+  stream: true
 # Entry point file path for the project
 entry: main.jssp
 projects:
-- projectId: "cpp"
+- # Platform type of the project, e.g., 'dotnet', 'java', 'cpp', 'rust', 'springboot', 'nodejs', 'nodets'
+  platform: "cpp"
   # Name of the project
   name: "App"
-  # Platform type of the project, e.g., 'dotnet', 'java', 'cpp', 'rust', 'springboot', 'nodejs', 'nodets'
-  platform: "cpp"
-  # The database management system used, e.g., 'sqlite', 'mysql', 'oracle', 'postgresql', 'mssql'
-  dbms: "sqlite"
   # Output path for the project build results
   outPath: "./out/cpp"
   entry: "main.jssp"
-- projectId: "cppserver"
+- platform: "cppserver"
   name: "App"
-  platform: "cppserver"
-  dbms: "sqlite"
   outPath: "./out/cppserver"
   entry: "main.jssp"
-- projectId: "java"
+- platform: "java"
   name: "App"
-  platform: "java"
-  dbms: "sqlite"
   outPath: "./out/java"
   entry: "main.jssp"
   # Project options that affect build and execution settings
   options:
     # The package name for the project.
-    package: "com.example"
+    package: "com.example.app"
     # The main class name for the Java project.
     mainClass: "App"
-- projectId: "javaserver"
+- platform: "springboot"
   name: "App"
-  platform: "javaserver"
-  dbms: "sqlite"
-  outPath: "./out/javaserver"
-  entry: "main.jssp"
-  options:
-    package: "com.example"
-    mainClass: "App"
-- projectId: "kotlin"
-  name: "App"
-  platform: "kotlin"
-  dbms: "sqlite"
-  outPath: "./out/kotlin"
-  entry: "main.jssp"
-  options:
-    package: "com.example"
-    mainClass: "App"
-- projectId: "kotlinserver"
-  name: "App"
-  platform: "kotlinserver"
-  dbms: "sqlite"
-  outPath: "./out/kotlinserver"
-  entry: "main.jssp"
-  options:
-    package: "com.example"
-    mainClass: "App"
-- projectId: "dotnet"
-  name: "App"
-  platform: "dotnet"
-  dbms: "sqlite"
-  outPath: "./out/dotnet"
-  entry: "main.jssp"
-  options:
-    namespace: "Example"
-- projectId: "dotnetserver"
-  name: "App"
-  platform: "dotnetserver"
-  dbms: "sqlite"
-  outPath: "./out/dotnetserver"
-  entry: "main.jssp"
-  options:
-    namespace: "Example"
-- projectId: "dart"
-  name: "App"
-  platform: "dart"
-  dbms: "sqlite"
-  outPath: "./out/dart"
-  entry: "main.jssp"
-- projectId: "dartserver"
-  name: "App"
-  platform: "dartserver"
-  dbms: "sqlite"
-  outPath: "./out/dartserver"
-  entry: "main.jssp"
-- projectId: "nodejs"
-  name: "App"
-  platform: "nodejs"
-  dbms: "sqlite"
-  outPath: "./out/nodejs"
-  entry: "main.jssp"
-- projectId: "nodets"
-  name: "App"
-  platform: "nodets"
-  dbms: "sqlite"
-  outPath: "./out/nodets"
-  entry: "main.jssp"
-- projectId: "python"
-  name: "App"
-  platform: "python"
-  dbms: "sqlite"
-  outPath: "./out/python"
-  entry: "main.jssp"
-- projectId: "pythonserver"
-  name: "App"
-  platform: "pythonserver"
-  dbms: "sqlite"
-  outPath: "./out/pythonserver"
-  entry: "main.jssp"
-- projectId: "django"
-  name: "App"
-  platform: "django"
-  dbms: "sqlite"
-  outPath: "./out/django"
-  entry: "main.jssp"
-- projectId: "go"
-  name: "App"
-  platform: "go"
-  dbms: "sqlite"
-  outPath: "./out/go"
-  entry: "main.jssp"
-- projectId: "goserver"
-  name: "App"
-  platform: "goserver"
-  dbms: "sqlite"
-  outPath: "./out/goserver"
-  entry: "main.jssp"
-- projectId: "rust"
-  name: "App"
-  platform: "rust"
-  dbms: "sqlite"
-  outPath: "./out/rust"
-  entry: "main.jssp"
-- projectId: "rustserver"
-  name: "App"
-  platform: "rustserver"
-  dbms: "sqlite"
-  outPath: "./out/rustserver"
-  entry: "main.jssp"
-- projectId: "reactjs"
-  name: "App"
-  platform: "reactjs"
-  outPath: "./out/reactjs"
-  entry: "pages.jssp"
-- projectId: "sveltejs"
-  name: "App"
-  platform: "sveltejs"
-  outPath: "./out/sveltejs"
-  entry: "pages.jssp"
-- projectId: "sveltets"
-  name: "App"
-  platform: "sveltets"
-  outPath: "./out/sveltets"
-  entry: "pages.jssp"
-- projectId: "vuejs"
-  name: "App"
-  platform: "vuejs"
-  outPath: "./out/vuejs"
-  entry: "pages.jssp"
-- projectId: "flutter"
-  name: "App"
-  platform: "flutter"
-  dbms: "sqlite"
-  outPath: "./out/flutter"
-  entry: "main.jssp"
-- projectId: "swagger"
-  name: "App"
-  platform: "swagger"
-  outPath: "./out/swagger"
-  entry: "main.jssp"
-- projectId: "fastapi"
-  name: "App"
-  platform: "fastapi"
-  dbms: "sqlite"
-  outPath: "./out/fastapi"
-  entry: "main.jssp"
-- projectId: "springboot"
-  name: "App"
-  platform: "springboot"
-  dbms: "mysql"
   outPath: "./out/springboot"
   entry: "main.jssp"
   options:
-    package: "com.example.demo"
-    mainClass: "Demo"
-    # Programming language used in the project, e.g., 'csharp', 'java', 'typescript', 'javascript', 'cpp', 'rust'
-    language: "java"
-    languageVersion: "21"
-    version: "0.0.1"
-    group: "com.example"
-    description: "Demo project for Spring Boot"
-    plugins:
-    - id 'java'
-    - id 'org.springframework.boot' version '3.5.5'
-    - id 'io.spring.dependency-management' version '1.1.7'
-    dependencies:
-    - implementation 'org.springframework.boot:spring-boot-starter-web'
-    - implementation 'org.springframework.boot:spring-boot-starter-security'
-    - implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-    - implementation 'org.springframework.boot:spring-boot-starter-validation'
-    - implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
-    - testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5'
-    - implementation 'com.nimbusds:nimbus-jose-jwt:10.5'
-    - implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-    - annotationProcessor 'org.projectlombok:lombok'
-    - compileOnly 'org.projectlombok:lombok'
-    - developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    package: "com.example.app"
+    mainClass: "App"
 

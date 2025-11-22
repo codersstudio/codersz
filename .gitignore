@@ -1,2 +1,6 @@
-examples/simple/log.txt
+**/.idea/
+**/bin/
+**/obj/
+nupkg/
 examples/simple/out/
+examples/simple/log.txt
