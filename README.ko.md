@@ -82,7 +82,7 @@ Coders 언어는 애플리케이션 로직, HTTP 엔드포인트, 영속성 정�
 
 - **핵심 스크립트**는 표현식, 조건문, 반복문, try/catch, 제네릭, 동적 타이핑을 지원합니다. 타입은 인라인 선언 후 필요에 따라 변환할 수 있습니다.
 
-  ```jssp
+  ```js
   func main() {
     var numbers list<int32> = [1, 2, 3];
     for (var item in numbers) {
@@ -98,7 +98,7 @@ Coders 언어는 애플리케이션 로직, HTTP 엔드포인트, 영속성 정�
 
 - **HTTP 컨트롤러**는 라우트, 메서드, 파라미터, 바인딩을 기술하며, 데코레이터로 생성된 클라이언트·서버에 대한 메타데이터를 제공합니다.
 
-  ```jssp
+  ```js
   [baseUrl='/api/v1/sample']
   controller SampleController {
     [method=get, route='users/{id}', contentType='application/json']
@@ -110,7 +110,7 @@ Coders 언어는 애플리케이션 로직, HTTP 엔드포인트, 영속성 정�
 
   재사용 가능한 API 클라이언트는 컨트롤러를 감쌀 수 있습니다.
 
-  ```jssp
+  ```js
   api SampleApi from @controller.SampleController {
     var server string;
   }
@@ -124,7 +124,7 @@ Coders 언어는 애플리케이션 로직, HTTP 엔드포인트, 영속성 정�
 
 - **데이터 모델링**은 테이블, 엔티티, 도메인, 매퍼를 연결해 관계형 워크플로를 정의합니다.
 
-  ```jssp
+  ```js
   domain Email varchar(320);
 
   table user_profile {
@@ -148,7 +148,7 @@ Coders 언어는 애플리케이션 로직, HTTP 엔드포인트, 영속성 정�
 
   스키마 선언은 인덱스와 외래 키 헬퍼도 제공합니다.
 
-  ```jssp
+  ```js
   table user_role {
     user_id bigint;
     role_id bigint;
@@ -159,7 +159,7 @@ Coders 언어는 애플리케이션 로직, HTTP 엔드포인트, 영속성 정�
 
 - **매퍼**는 선언된 테이블/엔티티에 대해 select/insert/update/delete 문을 래핑하며, 이름 기반 파라미터(`:name`)를 사용해 바인딩합니다.
 
-  ```jssp
+  ```js
   mapper TodoMapper {
     query insertTodo(title Title, completed YesNo) int {
       insert into tb_todo (title, completed, created_at, updated_at)
@@ -180,7 +180,7 @@ Coders 언어는 애플리케이션 로직, HTTP 엔드포인트, 영속성 정�
 
 - **프레젠테이션 헬퍼**는 현지화, 스타일 합성, 프로퍼티 번들을 다룹니다.
 
-  ```jssp
+  ```js
   define message [locale='en', default=true] {
     welcome 'Hello {name}!';
   }
@@ -200,7 +200,7 @@ Coders 언어는 애플리케이션 로직, HTTP 엔드포인트, 영속성 정�
 
 - **HTML 컴포넌트**는 Vue 스타일 템플릿과 선택적 스크립트 로직을 정의하며, `@css` 같은 헬퍼를 재사용할 수 있습니다.
 
-  ```jssp
+  ```js
   define css {
     text.primary {
       text-gray-800 dark:text-gray-100;
@@ -224,7 +224,7 @@ Coders 언어는 애플리케이션 로직, HTTP 엔드포인트, 영속성 정�
 
 - **네임스페이스와 인터페이스**는 플랫폼 개념을 반영하며 메서드 스타일 접근을 허용합니다.
 
-  ```jssp
+  ```js
   namespace http {
     interface Header {
       func get(key string) string;

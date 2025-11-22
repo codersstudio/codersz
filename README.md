@@ -82,7 +82,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **Core scripts** support expressions, conditionals, loops, try/catch, generics, and dynamic typing. Types can be declared inline and converted as needed.
 
-  ```jssp
+  ```js
   func main() {
     var numbers list<int32> = [1, 2, 3];
     for (var item in numbers) {
@@ -98,7 +98,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **HTTP controllers** describe routes, methods, parameters, and bindings, and decorators provide metadata for generated clients and servers.
 
-  ```jssp
+  ```js
   [baseUrl='/api/v1/sample']
   controller SampleController {
     [method=get, route='users/{id}', contentType='application/json']
@@ -110,7 +110,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
   Reusable API clients can wrap controllers.
 
-  ```jssp
+  ```js
   api SampleApi from @controller.SampleController {
     var server string;
   }
@@ -124,7 +124,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **Data modeling** connects tables, entities, domains, and mappers to describe relational workflows.
 
-  ```jssp
+  ```js
   domain Email varchar(320);
 
   table user_profile {
@@ -148,7 +148,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
   Schema declarations also offer helpers for indexes and foreign keys.
 
-  ```jssp
+  ```js
   table user_role {
     user_id bigint;
     role_id bigint;
@@ -159,7 +159,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **Mappers** wrap select/insert/update/delete statements over declared tables/entities and use name-based parameters (e.g., `:name`) for binding.
 
-  ```jssp
+  ```js
   mapper TodoMapper {
     query insertTodo(title Title, completed YesNo) int {
       insert into tb_todo (title, completed, created_at, updated_at)
@@ -180,7 +180,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **Presentation helpers** cover localization, style composition, and property bundles.
 
-  ```jssp
+  ```js
   define message [locale='en', default=true] {
     welcome 'Hello {name}!';
   }
@@ -200,7 +200,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **HTML components** define Vue-style templates with optional script logic and can reuse helpers such as `@css`.
 
-  ```jssp
+  ```js
   define css {
     text.primary {
       text-gray-800 dark:text-gray-100;
@@ -224,7 +224,7 @@ The Coders language lets you define application logic, HTTP endpoints, and persi
 
 - **Namespaces and interfaces** mirror platform idioms and enable method-style access.
 
-  ```jssp
+  ```js
   namespace http {
     interface Header {
       func get(key string) string;
