@@ -14,15 +14,11 @@ llmOptions:
 entry: main.jssp
 projects:
 - # Platform type of the project, e.g., 'dotnet', 'java', 'cpp', 'rust', 'springboot', 'nodejs', 'nodets'
-  platform: "cpp"
+  platform: "rust"
   # Name of the project
   name: "App"
   # Output path for the project build results
-  outPath: "./out/cpp"
-  entry: "main.jssp"
-- platform: "cppserver"
-  name: "App"
-  outPath: "./out/cppserver"
+  outPath: "./out/rust"
   entry: "main.jssp"
 - platform: "java"
   name: "App"
@@ -34,11 +30,30 @@ projects:
     package: "com.example.app"
     # The main class name for the Java project.
     mainClass: "App"
-- platform: "springboot"
+- platform: "java"
   name: "App"
-  outPath: "./out/springboot"
+  outPath: "./out/java"
   entry: "main.jssp"
   options:
     package: "com.example.app"
     mainClass: "App"
+- platform: "cpp"
+  name: "App"
+  outPath: "./out/cpp"
+  entry: "main.jssp"
+- platform: "go"
+  name: "App"
+  outPath: "./out/go"
+  entry: "main.jssp"
+- platform: "dotnet"
+  name: "App"
+  outPath: "./out/dotnet"
+  entry: "main.jssp"
+  options:
+    namespace: "Example.App"
+    mainClass: "Program"
+- platform: "python"
+  name: "App"
+  outPath: "./out/python"
+  entry: "main.jssp"
 

@@ -1,8 +1,0 @@
-import 'property.jssp';
-import 'api.jssp';
-func main() {
-    var todoApi = TodoApi();
-    todoApi.setServer("http://localhost:8080");
-    var res = todoApi.getTodos(1);
-    @console.log(res);
-}
